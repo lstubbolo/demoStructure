@@ -17,15 +17,13 @@ def checkFirebase():
     #   dummy delay
     time.sleep(.5)
 
-     
-
     fbResponse = ("nope", "nope")
 
     return fbResponse
 
 
 #   this is the function that interacts with the outside functions
-def respInterf(action_arg = "nope", obj_arg = "nope", external_Flag = False):
+def respInter(action_arg = "nope", obj_arg = "nope", external_Flag = False):
     print("\nin PiResponses.interface")
 
     #   Action is the thing that has to happen, object is the thing it has to happen to
@@ -56,6 +54,9 @@ def respInterf(action_arg = "nope", obj_arg = "nope", external_Flag = False):
 def noResp(obj):
     print(f"\tNo action needed for '{obj}'")
 
+    if obj == "OCR":
+        from OCRFunctions import stopOCR
+        stopOCR
     return "nope"
 
 

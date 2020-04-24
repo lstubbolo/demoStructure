@@ -1,5 +1,5 @@
 import time
-from PiResponses import respInterf
+from PiResponses import respInter
 
 
 #   get data function -> for OCR this means taking a picture and cropping
@@ -48,6 +48,8 @@ def menu_OCR():
 def setup():
     print("OCR Setup:\tLoading preferences from json")
 
+    #   TODO check mainSettings.OCR_Setup
+
     print("\n**If No cropping area set run cropping setup")
     time.sleep(.25)
 
@@ -68,6 +70,7 @@ def start():
     else:
         print("setup successful, Starting OCR Run")
 
+
     #   dummy flag and counter for ending the run
     endNow = False
     dummyCounter = 0
@@ -77,7 +80,7 @@ def start():
         print("\n\nNEW RUN!")
 
         print("Checking for kill signal")
-        response = respInterf("Checking", "OCR")
+        response = respInter("Checking", "OCR")
         if response == "Stop":
             endNow = True
         else:
@@ -105,11 +108,11 @@ def start():
 #   Update Local Display
 #   UpdateFirebase
 '''
-
-
 def sampleRun():
     print("In sample Run")
     getData()
     processData()
     updateLocal()
     updateServer()
+
+
