@@ -1,6 +1,6 @@
 import time
 from PiResponses import respInter
-from AudioFunctions import*
+from Audio_Functions import*
 
 #   get data function -> for OCR this means taking a picture and cropping
 def getData():

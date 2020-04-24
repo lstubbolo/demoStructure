@@ -1,6 +1,6 @@
 from OCR_Controller import menu_OCR
 
-from SettingsFunctions import *
+from Settings_Functions import *
 
 
 def Settings():

@@ -1,15 +1,15 @@
 import os
 import json
+import subprocess
 
 #   This set of function handles saving / loading settings
 
 
+#   returns a settings object derived from
+def loadSettings(fileName):
 
-#   returns a settings object
-def loadSettings():
-
-    #   name of settingsFile
-    fileName = "mainSettings.json"
+    #   name of main
+    main_Settings = "mainSettings.json"
 
     #   gets the directory of the file
     directory = os.path.dirname(__file__)
@@ -17,8 +17,8 @@ def loadSettings():
     #   set path to json file-> append file name to directory
     filePath = os.path.join(directory, fileName)
 
-    #   check if file doesn't exist, if not, make one at default value
-    if not (os.path.exists(filePath)):
+    #   check if main settings file exists, if not, create it
+    if fileName == main_Settings and not (os.path.exists(filePath)):
         print("NO SETTINGS FILE DETECTED")
 
         print("creating new file with default entry")
@@ -40,10 +40,19 @@ def loadSettings():
 
     #   load
     else:
-        mainSettings = {}
         with open(filePath, 'r') as myFile:
-            mainSettings = json.loads(myFile.read())
+            settingsObj = json.loads(myFile.read())
 
-        print("Settings Loaded")
+        print(f"{fileName} settings loaded")
 
-        return mainSettings
+        return settingsObj
+
+
+#   runs the bash script located at the specified local path
+def runBashScript(path):
+    directory = os.path.dirname(__file__)
+    filePath = os.path.join(directory, path)
+    subprocess.call(filePath)
+
+
+
