@@ -1,7 +1,7 @@
 from OCR_Controller import menu_OCR
 import Audio_Controller
 from Settings_Functions import *
-from Audio_Functions import playReference, recordAudio
+from Audio_Functions import playReference, recordAudio, clearAudio
 
 def Settings():
     print(f"\nSETTINGS ->\tThis function has access to settings json files")
@@ -30,11 +30,7 @@ def EXIT():
     print(f"\tmainSettings.json deleted")
     '''
 
-    print(f"Removing All Settings and Loop-Generated Files (for testing)\n")
-    wipeAll('.json')
 
-    #   delete all old audio files -> take this out eventually
-    wipeAll('.wav')
 
     print("Done Exit Process\nHave A Nice Day!")
     exit('\nExiting Program...')
@@ -66,9 +62,8 @@ if __name__ == "__main__":
     #   make sure settings system is working, exit if there are issues
     init_Main()
 
-    menuString = "\nMAIN MENU\n1)\tSettings\n2)\tOCR\n3)\tAudio\n4)\tEXIT\n5)\t(re)Rec Sample\n6)\tPlay Sample\n"
-    options = {1: Settings, 2: OCR, 3: Audio, 4: EXIT, 5: recordAudio, 6: playReference}
-    print("In the master File")
+    menuString = "\nMAIN MENU\n1)\tSettings\n2)\tOCR\n3)\tAudio\n4)\tEXIT\n5)\t(re)Rec Sample\n6)\tPlay Sample\n7)\tClear Recordings\n"
+    options = {1: Settings, 2: OCR, 3: Audio, 4: EXIT, 5: recordAudio, 6: playReference, 7: clearAudio}
 
     userInput = -1
 
@@ -76,9 +71,7 @@ if __name__ == "__main__":
     while userInput != 4:
         print(menuString)
 
-        userInput = int(input("Enter 1-4: "))
+        userInput = int(input(f"Enter 1-{len(options)}: "))
         options[userInput]()
 
-
         print("\nBack in Main Menu")
-

@@ -62,6 +62,10 @@ def recordRef():
     changeSetting(loadSettings('mainSettings.json'), 'Audio_Setup', True)
 
 
-#   plays the reference audio file
+#   plays the reference audio file using a bash script
 def playReference():
     runBashScript('playSound.sh', getFullPath('reference.wav'))
+
+#   deletes all audio files in the project directory
+def clearAudio():
+    wipeAll('.wav')
