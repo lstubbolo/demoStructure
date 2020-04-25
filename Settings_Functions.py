@@ -1,5 +1,6 @@
 from DEFAULTS import *
 from Utility_Functions import *
+from  time import sleep
 #   This set of function handles saving / loading settings
 
 
@@ -16,7 +17,7 @@ def getFullPath(fileName):
 
 #   changes setting in object, saves it to file, returns the modified version
 def changeSetting(obj, key, value):
-    obj[key] = value
+    obj[key] = str(value)
 
     #   every settings object has an attribute called self
     #   which is the local path to where it is saved
@@ -34,9 +35,19 @@ def loadSettings(fileName):
 
     filePath = getFullPath(fileName)
 
+    #   check if file is missing and / or empty
+    missing = not os.path.exists(filePath)
+    if missing:
+        empty = False
+    else:
+        empty = os. path. getsize(filePath) == 0
+
     #   check if main settings file exists, if not, create it
-    if not(os.path.exists(filePath)):
-        print(f"No settings file detected for {fileName}")
+    if (missing or empty):
+        print(f"Error Loading {fileName}")
+        print(f"Missing: {missing}")
+        print(f"Empty: {empty}")
+
         print("generating settings file ...")
 
         genSettings(fileName, filePath)
@@ -63,6 +74,9 @@ def genSettings(name, path):
         #   write object to file
         with open(path, 'w') as myFile:
             myFile.write(json.dumps(settingsObj))
+
+        #   system must exit for file to show up
+        exit(f"Created Settings File ({name})")
 
     else:
         print(f"\n\nError -> settings file{name} unable to be generated.")

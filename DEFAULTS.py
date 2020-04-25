@@ -18,8 +18,8 @@ OCR_OBJ = {
 
 AUDIO_OBJ = {
             'self': 'audioSettings.json',
-            'refPath': 'reference.WAV',
-            'smplPath': 'sample.WAV',
+            'refPath': 'reference.wav',
+            'smplPath': 'sample.wav',
             'loopMode': 'infinite',
             'loopEnd': '',
             'detected': False,

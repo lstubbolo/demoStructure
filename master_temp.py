@@ -1,4 +1,5 @@
 from OCR_Controller import menu_OCR
+import Audio_Controller
 from Settings_Functions import *
 
 def Settings():
@@ -15,7 +16,7 @@ def OCR():
 
 def Audio():
     print("You entered Audio!")
-
+    Audio_Controller.start()
     print("In Controller from Audio, going back to Main Menu")
 
 
@@ -49,3 +50,5 @@ if __name__ == "__main__":
         print("PROCESS DONE, HIT STOP SYMBOL")
         while(True):
             print("killme")
+            from time import sleep
+            sleep(5)

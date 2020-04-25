@@ -15,7 +15,7 @@ def processData(samplePath, reference):
     print("\tgetting Fundamental from sample")
     newFund = getFund(samplePath)
 
-    print("\t comparing with reference fundamental")
+    #print("\tcomparing with reference fundamental")
     detected = compareFreqs(newFund, reference)
 
     print(f"\t done - reference detected : {detected}")
@@ -28,7 +28,7 @@ def processData(samplePath, reference):
 def updateLocal(mySet, detected):
     print(f"\tSetting Audio Setting 'detected' to {detected}")
     mySet = changeSetting(mySet, 'detected', detected)
-    print("Updating Screen, Local Triggers")
+    print("\tUpdating Screen, Local Triggers")
     print()
     return mySet
 
@@ -43,11 +43,13 @@ def updateServer(detected):
 
 #   checks that main settings[Audio_Setup] flag is true
 def init():
-    success = True
-    mainSet = loadSettings('mainSettings.json')
-    success = mainSet['Audio_Setup']
+    print("Checking Audio Initialization")
 
-    return success
+    mainSet = loadSettings('mainSettings.json')
+    flag = mainSet['Audio_Setup']
+    print(f"Main Settings Audio Flag: {flag}")
+
+    return flag == "True"
 
 
 #   checks internal end conditions for the sampling loop
@@ -70,14 +72,18 @@ def getEndConditions(mySet):
 #   sub controller function -> runs everything needed for OCR runs
 def start():
     print("Audio Start function")
+
     #   checks that device setup was completed
+
     setupSuccess = init()
 
     #   loads audioSettings.json
     settings = loadSettings('audioSettings.json')
 
     if not setupSuccess:
-        print("setup failed, returning to OCR menu")
+        print("Audio Not Set Up! -> Running Setup")
+        recordRef()
+
     else:
         print("setup successful, Starting OCR Run")
 
