@@ -3,7 +3,7 @@ import os
 from datetime import datetime, timedelta
 import json
 
-
+#   This is the least secure code I think i have ever written
 #   attempts to run the bash script based on the name provided
 #   args are optional, but
 def runBashScript(scriptName, args = ()):
