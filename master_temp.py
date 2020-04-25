@@ -1,7 +1,5 @@
 from OCR_Controller import menu_OCR
-
 from Settings_Functions import *
-
 
 def Settings():
     print(f"\nSETTINGS ->\tThis function has access to settings json files")
@@ -30,10 +28,8 @@ def EXIT():
 # main
 if __name__ == "__main__":
 
-    loadSettings()
-
-    #   launch GUI
-    #launch gui
+    #   load main settings file
+    loadSettings('mainSettings.json')
 
     menuString = "\nMAIN MENU\n1)\tSettings\n2)\tOCR\n3)\tAudio\n4)\tEXIT\n"
     options = {1: Settings, 2: OCR, 3: Audio, 4: EXIT}

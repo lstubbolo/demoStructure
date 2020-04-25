@@ -2,64 +2,79 @@ import time
 from PiResponses import respInter
 from Audio_Functions import*
 
-#   get data function -> for OCR this means taking a picture and cropping
-def getData():
-    print("\tGetting Data (Taking Picture, Cropping)")
+#   record new sample
+def getData(samplePath):
+    print("\tRecording Sample")
+    recordAudio(samplePath)
+
+#   called during loop
+#   get fundamental from sample, compare with reference, return result
+def processData(samplePath, reference):
+    print("\tgetting Fundamental from sample")
+    newFund = getFund(samplePath)
+
+    print("\t comparing with reference fundamental")
+    detected = compareFreqs(newFund, reference)
+    
+    print(f"\t done - reference detected : {detected}")
+    print()
+    return detected
+
+#   called during loop - > updates local values
+#   any function calls that need to happen depending loop data should happen here
+def updateLocal(mySet, detected):
+    print(f"\tSetting Audio Setting 'detected' to {detected}")
+    mySet = changeSetting(mySet, 'detected', detected)
+    print("Updating Screen, Local Triggers")
+    print()
+    return mySet
+
+#   called during loop -> Push results to Firebase
+def updateServer(detected):
+    fb_message = {'audioDetected': detected}
+    print(f"\tUpdating Firebase with {fb_message}")
     time.sleep(.25)
-    print("\tDone Getting Data. Returning to sampleRun")
     print()
 
 
-#   process data function -> for OCR this means running OCR scripts
-def processData():
-    print("\tProcessing Data (Running OCR on set of cropped images)")
-    time.sleep(.5)
-    print("\tDone Processing Data. Returning to sampleRun")
-    print()
+#   checks that main settings[Audio_Setup] flag is true
+def init():
+    success = True
+    mainSet = loadSettings('mainSettings.json')
+    success = mainSet['Audio_Setup']
 
+    return success
 
-#   Update Local function -> display most recent results, save to file?
-def updateLocal():
-    print("\tUpdating GUI, storage with data from this run")
-    time.sleep(.25)
-    print("\tDone updating local. Returning to sampleRun")
-    print()
+#   checks internal end conditions for the sampling loop
+def getEndConditions(mySet):
+    print("Checking Internal Ending Conditions...")
+    
+    endNow = False
+    
+    if mySet['loopMode'] == 'infinite':
+        return False
+    
+    if mySet['loopMode'] == 'single':
+        return True
 
+    if mySet['loopMode'] == 'duration':
+        return checkTime(mySet['loopEnd'])
 
-#   Update Server function -> Push results to Firebase
-def updateServer():
-    print("\tUpdating Firebase with data from this run")
-    print("\tAvoid deadlock here!")
-    time.sleep(.25)
-    print("\tDone updating Firebase. Returning to sampleRun")
-    print()
-
-
-#   ensures values are initialed
-def setup():
-    print("OCR Setup:\tLoading preferences from json")
-
-    #   TODO check mainSettings.OCR_Setup
-
-    time.sleep(.25)
-
-    print("Done Audio Setup ")
-
-    return True
-
+    else:
+        return endNow
+    
 
 #   sub controller function -> runs everything needed for OCR runs
 def start():
     print("Audio Start function")
-    print("running setup")
-    setupSuccess = setup()
+    setupSuccess = init()
+    settings = loadSettings('audioSettings.json')
 
     if (setupSuccess == False):
         print("setup failed, returning to OCR menu")
 
     else:
         print("setup successful, Starting OCR Run")
-
 
     #   dummy flag and counter for ending the run
     endNow = False
@@ -82,27 +97,23 @@ def start():
             print("\tProceeding")
 
         print(f"\nSampling... {dummyCounter}")
-        sampleRun()
+        runOnce(settings)
         print("Done Sampling - waiting")
-        time.sleep(1)
-        print("Done Waiting - loop over")
+        
 
     print("\n\nSample Loop Completed!")
 
 
 #   single sampling run ->
 '''
-#   Take picture, save to file
-#   Crop Pictures, save to file
-#   Extract Strings from Crop, save to file
-#   Update Local Display
-#   UpdateFirebase
+mySet = Audio settings, loaded in start
 '''
-def sampleRun():
+def runOnce(mySet):
     print("In sample Run")
-    getData()
-    processData()
-    updateLocal()
-    updateServer()
+    getData(mySet['smplPath'])
+    detected = processData(mySet['smplPath'], mySet['reference'])
+    
+    mySet = updateLocal(mySet, detected)
+    updateServer(detected)
 
 
