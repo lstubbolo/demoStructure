@@ -8,13 +8,14 @@ from Settings_Functions import *
 #   and saves it to the specified path
 
 #   WARNING WAITS FOR SPECIFIED TIME
-def recordAudio(path, recTime = .5):
+def recordAudio(path = getFullPath('reference.wav'), recTime = .5):
     sampleRate = 44100  # Sample rate
     try:
         myrecording = sd.rec(int(recTime * sampleRate), samplerate=sampleRate, channels=1)
         sd.wait()       # Wait until recording is finished
     except sd.PortAudioError:
         print(f"No audio device connected. myrecording set to empty")
+        myrecording = []
     write(path, sampleRate, myrecording)  # Save as WAV file
 
 
