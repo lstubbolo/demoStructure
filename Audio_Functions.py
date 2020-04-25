@@ -34,12 +34,12 @@ def getFund(path):
 def compareFreqs(sample, reference):
     sensitivy = .05
 
-    print(f"\tComparing sample{sample} with reference{reference}")
+    print(f"\tComparing fund. freq of sample: {sample} with reference: {reference}")
 
-    min_range = reference*(1 - sensitivy)
-    max_range = reference*(1 + sensitivy)
+    min_range = reference*(1. - sensitivy)
+    max_range = reference*(1. + sensitivy)
 
-    # detected = (sample in range(min_range, max_range))
+    #detected = (sample in range(min_range, max_range))
     detected = (sample > min_range) and (sample < max_range)
 
     return detected

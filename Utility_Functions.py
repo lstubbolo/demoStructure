@@ -10,6 +10,29 @@ def runBashScript(path):
     subprocess.call(filePath)
 
 
+#   removes all files in root directory of the specified type(if allowable)
+def wipeAll(type):
+    allowable = ('.wav', '.json', '.png', '.jpeg')
+    #   check if you are allowed to remove this type of file
+
+    if not allowable.__contains__(type):
+        print(f"You can't remove '{type}' files")
+        exit(f'Stupd MF Tried to delete {type} files')
+    else:
+        print(f"Removing all files ending with '{type}'")
+
+        directory = os.path.dirname(__file__)
+        allFiles = os.listdir(directory)
+        allWav = [f for f in allFiles if f.endswith(type)]
+
+        for file in allWav:
+            path_to_file = os.path.join(directory, file)
+            os.remove(path_to_file)
+
+        print(f"\tAll {type} files Removed")
+        print()
+
+
 #   checks loop ending conditions common to both kinds of loop
 def check_LoopMode(mySet):
     if mySet['loopMode'] == 'infinite':

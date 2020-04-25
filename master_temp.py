@@ -20,17 +20,51 @@ def Audio():
     print("In Controller from Audio, going back to Main Menu")
 
 
+#   exits the program -> erase main settings file
 def EXIT():
-    print("Have a nice day!")
 
-    exit(0)
+    '''print(f"removing mainSettings File")
+    path = getFullPath('mainSettings.json')
+    os.remove(path)
+    print(f"\tmainSettings.json deleted")
+    '''
+
+    print(f"Removing All Settings and Loop-Generated Files (for testing)\n")
+    wipeAll('.json')
+
+    #   delete all old audio files -> take this out eventually
+    wipeAll('.wav')
+
+    print("Done Exit Process\nHave A Nice Day!")
+    exit('\nExiting Program...')
+
+
+#   init function for the entire project
+#   This function will automatically terminate with error
+#   if the settings file read/write system isn't working
+def init_Main():
+    #   load main settings file
+    mainSet = loadSettings('mainSettings.json')
+
+    #   overwrite error flag in mainSettings
+    print("Writing Main Settings Error Flag to False")
+    changeSetting(mainSet, 'error', 'False')
+    mainSet = loadSettings('mainSettings.json')
+
+    print(f"\tSettings Load Error: {mainSet['error']}")
+    print()
+
+    #   check that flag was overwritten successfully
+    if not mainSet['error'] == 'False':
+        print("Failed to Load / Generate Main Settings")
+        exit("Main Settings Failure")
 
 
 # main
 if __name__ == "__main__":
 
-    #   load main settings file
-    loadSettings('mainSettings.json')
+    #   make sure settings system is working, exit if there are issues
+    init_Main()
 
     menuString = "\nMAIN MENU\n1)\tSettings\n2)\tOCR\n3)\tAudio\n4)\tEXIT\n"
     options = {1: Settings, 2: OCR, 3: Audio, 4: EXIT}
@@ -44,11 +78,6 @@ if __name__ == "__main__":
 
         userInput = int(input("Enter 1-4: "))
 
-        print(f"You Entered: {userInput}\n")
         options[userInput]()
+        print("\nBack in Main Menu")
 
-        print("PROCESS DONE, HIT STOP SYMBOL")
-        while(True):
-            print("killme")
-            from time import sleep
-            sleep(5)

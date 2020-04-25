@@ -13,12 +13,13 @@ def getData(samplePath):
 #   get fundamental from sample, compare with reference, return result
 def processData(samplePath, reference):
     print("\tgetting Fundamental from sample")
-    newFund = getFund(samplePath)
+    newFund = float(getFund(samplePath))
+    reference = float(reference)
 
     #print("\tcomparing with reference fundamental")
     detected = compareFreqs(newFund, reference)
 
-    print(f"\t done - reference detected : {detected}")
+    print(f"\tDone Comparison -> reference detected: {detected}")
     print()
     return detected
 
@@ -26,47 +27,63 @@ def processData(samplePath, reference):
 #   called during loop - > updates local values
 #   any function calls that need to happen depending loop data should happen here
 def updateLocal(mySet, detected):
-    print(f"\tSetting Audio Setting 'detected' to {detected}")
-    mySet = changeSetting(mySet, 'detected', detected)
-    print("\tUpdating Screen, Local Triggers")
-    print()
+    #   update local values if audio signal was detected
+    if(detected):
+        print("Updating Local Variables")
+        print(f"\tSetting Audio Setting 'detected' to {detected}")
+        mySet = changeSetting(mySet, 'detected', detected)
+        print("\tUpdating Screen, Local Triggers")
+        print()
+    else:
+        print(f"\tLocal Update Skipped Because detected: {detected}")
+
     return mySet
 
 
 #   called during loop -> Push results to Firebase
 def updateServer(detected):
-    fb_message = {'audioDetected': detected}
-    print(f"\tUpdating Firebase with {fb_message}")
-    time.sleep(.25)
-    print()
+    if(detected):
+        fb_message = {'audioDetected': detected}
+        print(f"\tUpdating Firebase with {fb_message}")
+        print(f"\t***STILL IN DEVELOPMENT***")
+        time.sleep(.25)
+        print("\tFirebase Update Complete")
+        print()
 
-
-#   checks that main settings[Audio_Setup] flag is true
-def init():
-    print("Checking Audio Initialization")
-
-    mainSet = loadSettings('mainSettings.json')
-    flag = mainSet['Audio_Setup']
-    print(f"Main Settings Audio Flag: {flag}")
-
-    return flag == "True"
-
+    else:
+        print(f"\tFirebase Update Skipped Because detected: {detected}")
 
 #   checks internal end conditions for the sampling loop
 def getEndConditions(mySet):
-    print("Checking Internal Ending Conditions...")
+    print("Checking Audio End Conditions")
 
     #   checks for loop end due to loopMode Settings
     if check_LoopMode(mySet):
+        print("\tLoop Ended Due to Internal Trigger")
+        print()
         return True
 
     #   Checks for loop end from to external input
     if respInter("Checking", "OCR") == "Stop":
+        print("\tLoop Ended Due to External Trigger")
+        print()
         return True
 
     #   unique end conditions go here
 
+    print("\tLoop Continuing")
     return False
+
+#   checks that main settings[Audio_Setup] flag is true
+def init_Audio():
+    print("In init_Audio: Checking Audio Initialization")
+
+    mainSet = loadSettings('mainSettings.json')
+    flag = mainSet['Audio_Setup']
+    print(f"Main Settings Audio Setup Flag: {flag}")
+
+    #   flag must be evaluated as string!
+    return flag == "True"
 
 
 #   sub controller function -> runs everything needed for OCR runs
@@ -74,24 +91,31 @@ def start():
     print("Audio Start function")
 
     #   checks that device setup was completed
-
-    setupSuccess = init()
-
-    #   loads audioSettings.json
-    settings = loadSettings('audioSettings.json')
+    setupSuccess = init_Audio()
 
     if not setupSuccess:
-        print("Audio Not Set Up! -> Running Setup")
+        print("\tAudio Not Set Up! -> Running recordRef")
+        print()
         recordRef()
 
+        print(f"Reference Recorded -> Loading Audio Settings")
+        print()
+
     else:
-        print("setup successful, Starting OCR Run")
+        print("Audio Has been Set Up -> Loading Audio Settings")
+        print()
+
+
+    settings = loadSettings('audioSettings.json')
+
+    print(f"Setup Complete -> Loop Mode: {settings['loopMode']}")
 
     endFlag = False
 
     while not endFlag:
-        print("\n\nNEW Loop!")
+        print("\n--------Loop Starting--------\n")
 
+        #   run function that checks if loop should
         endFlag = getEndConditions(settings)
 
         loopOnce(settings)
@@ -103,10 +127,11 @@ def start():
 #   single sampling run ->
 #   mySet = Audio settings, loaded in start
 def loopOnce(mySet):
-    print("In sample Run")
+    print("In Loop Once...")
     getData(mySet['smplPath'])
     detected = processData(mySet['smplPath'], mySet['reference'])
 
-    mySet = updateLocal(mySet, detected)
+    print("Running Updates")
+    updateLocal(mySet, detected)
     updateServer(detected)
-    print("done run")
+    print("\n>-------Loop COMPLETE-------<\n")

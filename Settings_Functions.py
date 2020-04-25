@@ -40,50 +40,59 @@ def loadSettings(fileName):
     if missing:
         empty = False
     else:
-        empty = os. path. getsize(filePath) == 0
+        empty = os.path.getsize(filePath) == 0
 
-    #   check if main settings file exists, if not, create it
+    #   if missing or empty generate and save default file
     if (missing or empty):
-        print(f"Error Loading {fileName}")
-        print(f"Missing: {missing}")
-        print(f"Empty: {empty}")
+        print(f"Error Loading {fileName}\n\tMissing: {missing}\n\tEmpty: {empty}")
+        print()
 
-        print("generating settings file ...")
+        settingsObj = genSettings(fileName, filePath)
 
-        genSettings(fileName, filePath)
+        print("\tFile Created Successfully")
+        print()
 
-        print ("done")
 
     #   load
     else:
+        print(f"Settings File '{fileName}' Located and Non-Empty")
         with open(filePath, 'r') as myFile:
-            settingsObj = json.loads(myFile.read())
+            settingsObj = json.load(myFile)
 
-        print(f"{fileName} settings loaded")
+        print("\tFile Loaded Successfully")
+        print()
 
-        return settingsObj
+    '''
+    print("settings object in load settings function:")
+    for i in settingsObj:
+        print(f"\t{i}: {settingsObj[i]}")
+    print()
+    '''
+
+    return settingsObj
 
 
 #   generates settings file automatically from data in DEFAULTS
-#   saves file and returns settings dict
+#   saves file and returns object
 def genSettings(name, path):
-    settingsObj = LIST_ALL[name]
+    print(f"Generating Default Settings File: {name}")
+    #   gets default object saved in DEFAULTS
+    defSetting = LIST_ALL[name]
 
-    #   check if something was loaded
-    if(settingsObj):
+    #   check if object was loaded
+    if defSetting:
         #   write object to file
         with open(path, 'w') as myFile:
-            myFile.write(json.dumps(settingsObj))
+            myFile.write(json.dumps(defSetting))
 
         #   system must exit for file to show up
-        exit(f"Created Settings File ({name})")
+        #exit(f"Created Settings File ({name})")
 
     else:
         print(f"\n\nError -> settings file{name} unable to be generated.")
-        print("TERMINATING")
-        exit("ERROR")
+        exit('Terminating in genSettings: cannot find default object')
 
-    return settingsObj
+    return defSetting
 
 
 #   sets the end time attribute of the provided settings object
