@@ -71,6 +71,7 @@ def genSettings(name, path):
 
     return settingsObj
 
+
 #   sets the end time attribute of the provided settings object
 #   based upon the provided offset(hours)
 #   returns the modified settings object

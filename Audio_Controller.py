@@ -48,20 +48,13 @@ def init():
 #   checks internal end conditions for the sampling loop
 def getEndConditions(mySet):
     print("Checking Internal Ending Conditions...")
-    
-    endNow = False
-    
-    if mySet['loopMode'] == 'infinite':
-        return False
-    
-    if mySet['loopMode'] == 'single':
-        return True
 
-    if mySet['loopMode'] == 'duration':
-        return checkTime(mySet['loopEnd'])
+    #   checks for loop end due to loopMode Settings
+    endNow = check_LoopMode(mySet)
 
-    else:
-        return endNow
+    #   unique end conditions go here
+
+    return endNow
     
 
 #   sub controller function -> runs everything needed for OCR runs
