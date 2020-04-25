@@ -9,6 +9,12 @@ def runBashScript(path):
     filePath = os.path.join(directory, path)
     subprocess.call(filePath)
 
+#   runs the bash script located at the specified local path
+def runBashScriptArgs(path, args):
+    directory = os.path.dirname(__file__)
+    filePath = os.path.join(directory, path)
+    subprocess.call([filePath, args])
+
 
 #   removes all files in root directory of the specified type(if allowable)
 def wipeAll(type):

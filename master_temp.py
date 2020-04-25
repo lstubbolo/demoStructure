@@ -1,6 +1,7 @@
 from OCR_Controller import menu_OCR
 import Audio_Controller
 from Settings_Functions import *
+from Audio_Functions import playReference
 
 def Settings():
     print(f"\nSETTINGS ->\tThis function has access to settings json files")
@@ -38,7 +39,6 @@ def EXIT():
     print("Done Exit Process\nHave A Nice Day!")
     exit('\nExiting Program...')
 
-
 #   init function for the entire project
 #   This function will automatically terminate with error
 #   if the settings file read/write system isn't working
@@ -67,7 +67,7 @@ if __name__ == "__main__":
     init_Main()
 
     menuString = "\nMAIN MENU\n1)\tSettings\n2)\tOCR\n3)\tAudio\n4)\tEXIT\n"
-    options = {1: Settings, 2: OCR, 3: Audio, 4: EXIT}
+    options = {1: Settings, 2: OCR, 3: Audio, 4: EXIT, 5: playReference}
     print("In the master File")
 
     userInput = -1
