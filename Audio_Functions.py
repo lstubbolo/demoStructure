@@ -1,5 +1,7 @@
 from scipy.io import wavfile
-import sounddevice as sd
+#import sounddevice as sd
+from sounddevice import rec as sd_rec
+from sounddevice import wait as sd_wait
 from scipy.io.wavfile import write
 from scipy.fftpack import fft, fftfreq
 from Settings_Functions import *
@@ -10,8 +12,8 @@ from Settings_Functions import *
 #   WARNING WAITS FOR SPECIFIED TIME
 def recordAudio(path, recTime = .5):
     sampleRate = 44100  # Sample rate
-    myrecording = sd.rec(int(recTime * sampleRate), samplerate=sampleRate, channels=1)
-    sd.wait()       # Wait until recording is finished
+    myrecording = sd_rec(int(recTime * sampleRate), samplerate=sampleRate, channels=1)
+    sd_wait()       # Wait until recording is finished
     write(path, sampleRate, myrecording)  # Save as WAV file
 
 
