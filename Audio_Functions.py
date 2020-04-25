@@ -63,6 +63,4 @@ def recordRef():
 
 #   plays the reference audio file
 def playReference():
-    scriptPath = getFullPath('playSound.sh')
-    audioPath = getFullPath('reference.wav')
-    runBashScriptArgs(scriptPath, audioPath)
+    runBashScript('playSound.sh', getFullPath('reference.wav'))

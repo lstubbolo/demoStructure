@@ -3,17 +3,17 @@ import os
 from datetime import datetime, timedelta
 import json
 
-#   runs the bash script located at the specified local path
-def runBashScript(path):
-    directory = os.path.dirname(__file__)
-    filePath = os.path.join(directory, path)
-    subprocess.call(filePath)
 
-#   runs the bash script located at the specified local path
-def runBashScriptArgs(path, args):
+#   attempts to run the bash script based on the name provided
+#   args are optional, but
+def runBashScript(scriptName, args = ()):
     directory = os.path.dirname(__file__)
-    filePath = os.path.join(directory, path)
-    subprocess.call([filePath, args])
+    filePath = os.path.join(directory, scriptName)
+    try:
+        subprocess.call([filePath, args])
+    except PermissionError:
+        print(f"'{scriptName}' has not been set to executable!")
+        print(f"while in this directory run sudo chmod +x {scriptName}")
 
 
 #   removes all files in root directory of the specified type(if allowable)

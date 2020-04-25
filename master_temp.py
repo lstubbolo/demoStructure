@@ -77,7 +77,8 @@ if __name__ == "__main__":
         print(menuString)
 
         userInput = int(input("Enter 1-4: "))
-
         options[userInput]()
+
+
         print("\nBack in Main Menu")
 
