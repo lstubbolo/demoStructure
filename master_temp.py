@@ -62,7 +62,7 @@ if __name__ == "__main__":
     #   make sure settings system is working, exit if there are issues
     init_Main()
 
-    menuString = "\nMAIN MENU\n1)\tSettings\n2)\tOCR\n3)\tAudio\n4)\tEXIT\n5)\t(re)Rec Sample\n6)\tPlay Sample\n7)\tClear Recordings\n"
+    menuString = "\nMAIN MENU\n1)\tSettings\n2)\tOCR\n3)\tAudio\n4)\tEXIT\n5)\t(re)Rec Reference\n6)\tPlay Reference\n7)\tClear Recordings\n"
     options = {1: Settings, 2: OCR, 3: Audio, 4: EXIT, 5: recordAudio, 6: playReference, 7: clearAudio}
 
     userInput = -1

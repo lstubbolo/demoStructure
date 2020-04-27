@@ -1,10 +1,7 @@
 import time
 
 
-#   The puprose of this is to encapsulate the set of functions that
-#   that represent the Pi's ability to respond to external stimuli
-#   that occur during loop execution
-
+#   Functions that allow looping functions to check if
 #   These responses can originate from Firebse (because the pi is checking)
 #   ***??????? or possibly from somewhere else??? Stop writing and code Louis
 
@@ -55,8 +52,8 @@ def noResp(obj):
     print(f"\tNo action needed for '{obj}'")
 
     if obj == "OCR":
-        from OCRFunctions import stopOCR
-        stopOCR
+        print("OBJ = OCR")
+
     return "nope"
 
 

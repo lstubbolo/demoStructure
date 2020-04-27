@@ -51,12 +51,19 @@ def compareFreqs(sample, reference):
 
 #   records the reference audio sample, saves fundamental, sets mainSettings flag
 def recordRef():
+    print(f'Recording Reference')
+
+    #   record new reference wav file
     settings = loadSettings('audioSettings.json')
     path = getFullPath(settings['refPath'])
     recordAudio(path, 1)
 
+    #   get new reference fundamental
+    newRef = getFund(path)
+    print(f"New Fundamental: {newRef}")
+
     # save the fundamental to file
-    changeSetting(settings, 'reference', getFund(path))
+    changeSetting(settings, 'reference', newRef)
 
     # set setup flag in main settings to true
     changeSetting(loadSettings('mainSettings.json'), 'Audio_Setup', True)
@@ -64,8 +71,15 @@ def recordRef():
 
 #   plays the reference audio file using a bash script
 def playReference():
-    runBashScript('playSound.sh', getFullPath('reference.wav'))
+    print(f'Playing Reference...')
+    filePath = getFullPath('reference.wav')
+    if(os.path.exists(filePath)):
+        runBashScript('playSound.sh', filePath)
+    else:
+        print("No file to play, you fool! Record one first!")
 
 #   deletes all audio files in the project directory
 def clearAudio():
+    print("wiping ")
     wipeAll('.wav')
+
