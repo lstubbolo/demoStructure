@@ -71,6 +71,7 @@ if __name__ == "__main__":
     while userInput != 4:
         print(menuString)
 
+        print("changing to test github")
         userInput = int(input(f"Enter 1-{len(options)}: "))
         options[userInput]()
 
