@@ -1,7 +1,10 @@
-from OCR_Controller import menu_OCR
+#   This is the main controller file. This is a temporary stand-in for what will be in the GUI
+
+import OCR_Controller
 import Audio_Controller
 from Settings_Functions import *
 from Audio_Functions import playReference, recordAudio, clearAudio
+from FireBase_Functions import setupFirebase
 
 def Settings():
     print(f"\nSETTINGS ->\tThis function has access to settings json files")
@@ -11,12 +14,12 @@ def Settings():
     print("In Controller from Settings, going back to Main Menu")
 
 def OCR():
-    print("You entered OCR!")
-    menu_OCR()
+    print("\nYou entered OCR!")
+    OCR_Controller.start()
     print("In Controller from OCR, going back to Main Menu")
 
 def Audio():
-    print("You entered Audio!")
+    print("\nYou entered Audio!")
     Audio_Controller.start()
     print("In Controller from Audio, going back to Main Menu")
 
@@ -54,6 +57,10 @@ def init_Main():
     if not mainSet['error'] == 'False':
         print("Failed to Load / Generate Main Settings")
         exit("Main Settings Failure")
+
+    #   Check if firebase should be connected then do it
+    if mainSet['FB_Enabled'] == 'True':
+        setupFirebase()
 
 
 # main

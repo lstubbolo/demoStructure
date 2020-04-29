@@ -44,7 +44,7 @@ def loadSettings(fileName):
 
     #   if missing or empty generate and save default file
     if (missing or empty):
-        print(f"Error Loading {fileName}\n\tMissing: {missing}\n\tEmpty: {empty}")
+        print(f"Error Loading {fileName}\n\tMissing: {missing}\t\tEmpty: {empty}")
         print()
 
         settingsObj = genSettings(fileName, filePath)
@@ -55,12 +55,12 @@ def loadSettings(fileName):
 
     #   load
     else:
-        print(f"Settings File '{fileName}' Located and Non-Empty")
+        #print(f"Settings File '{fileName}' Located and Non-Empty")
         with open(filePath, 'r') as myFile:
             settingsObj = json.load(myFile)
 
-        print("\tFile Loaded Successfully")
-        print()
+        #print("\tFile Loaded Successfully")
+       # print()
 
     '''
     print("settings object in load settings function:")

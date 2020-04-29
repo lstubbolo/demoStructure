@@ -39,21 +39,6 @@ def wipeAll(type):
         print()
 
 
-#   checks loop ending conditions common to both kinds of loop
-def check_LoopMode(mySet):
-    if mySet['loopMode'] == 'infinite':
-        return False
-
-    if mySet['loopMode'] == 'single':
-        return True
-
-    #   returns true if enough time has passed
-    if mySet['loopMode'] == 'duration':
-        return checkTime(mySet['loopEnd'])
-
-    else:
-        return False
-
 #   datetime stuff
 
 #   gets a json string from a datetime object

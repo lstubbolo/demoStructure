@@ -1,118 +1,129 @@
 import time
-from PiResponses import respInter
+from PiResponses import respond, check_LoopMode
+from OCR_Functions import *
+from FireBase_Functions import postFirebase
 
 
 #   get data function -> for OCR this means taking a picture and cropping
-def getData():
-    print("\tGetting Data (Taking Picture, Cropping)")
-    time.sleep(.25)
-    print("\tDone Getting Data. Returning to sampleRun")
+def getData(src, cropImgs):
+    print("Getting Data for OCR...")
+    takeSource(src)
+    cropped = cropSource(cropImgs)
     print()
 
 
 #   process data function -> for OCR this means running OCR scripts
-def processData():
-    print("\tProcessing Data (Running OCR on set of cropped images)")
-    time.sleep(.5)
-    print("\tDone Processing Data. Returning to sampleRun")
+def processData(imgs, PSM, lang):
+    print("Processing Data for OCR...")
+    crop_text = {}
+    for entry in imgs:
+        crop_text[entry] = (doOCR(imgs[entry], PSM[entry], lang[entry]))
+    print()
+    return crop_text
+
+#   called during loop - > updates local values
+#   any function calls that need to happen depending loop data should happen here
+def updateLocal(mySet, ocr_out):
+
+    print("Updating Local Stuff")
+
+    mySet = changeSetting(mySet, 'cropTxt', ocr_out)
+
+    print("\t**NOT IMPLEMENTED-> UPDATE SCREEN")
+    print()
+
+    return mySet
+
+#   called during loop -> Push results to Firebase
+def updateServer(fb_url, ocrData):
+    print(f"Updating Server")
+
+    fb_message = {'ocrText': ocrData}
+
+    postFirebase(fb_url, fb_message)
+
+    print("\tFirebase Update Complete")
     print()
 
 
-#   Update Local function -> display most recent results, save to file?
-def updateLocal():
-    print("\tUpdating GUI, storage with data from this run")
-    time.sleep(.25)
-    print("\tDone updating local. Returning to sampleRun")
-    print()
+#   checks internal end conditions for the sampling loop
+def getEndConditions(mySet):
+    print("Checking Audio End Conditions")
+
+    #   checks for loop end due to loopMode Settings (in Utility Functions)
+    if check_LoopMode(mySet):
+        print("\tLoop Ended Due to Internal Trigger")
+        print()
+        return True
+
+    #   Checks for loop end from to external input
+    if respond("check", "audio") == "Stop":
+        print("\tLoop Ended Due to External Trigger")
+        print()
+        return True
 
 
-#   Update Server function -> Push results to Firebase
-def updateServer():
-    print("\tUpdating Firebase with data from this run")
-    print("\tAvoid deadlock here!")
-    time.sleep(.25)
-    print("\tDone updating Firebase. Returning to sampleRun")
-    print()
+    print("\tLoop Continuing")
+    return False
 
 
-#   menu -> Called by Controller -> User can either change settings or start run
-def menu_OCR():
-    print("OCR MENU:-> No Settings implemented yet")
+#   checks that main mySet[Audio_Setup] flag is true
+def init_OCR():
+    print("In init_OCR: Checking OCR Initialization")
 
-    print("Going Automatically Going to Start")
+    mainSet = loadSettings('mainSettings.json')
+    flag = mainSet['OCR_Setup']
+    print(f"Main Settings OCR Setup Flag: {flag}")
 
-    start()
-
-
-#   ensures values are initialed
-def setup():
-    print("OCR Setup:\tLoading preferences from json")
-
-    #   TODO check mainSettings.OCR_Setup
-
-    print("\n**If No cropping area set run cropping setup")
-    time.sleep(.25)
-
-    print("Done OCR Setup ")
-
-    return True
+    #   flag must be evaluated as string!
+    return flag == "True"
 
 
-#   sub controller function -> runs everything needed for OCR runs
+#   sub controller function -> runs everything needed for Audio runs
 def start():
     print("OCR Start function")
-    print("running setup")
-    setupSuccess = setup()
 
-    if (setupSuccess == False):
-        print("setup failed, returning to OCR menu")
+    #   checks that device setup was completed
+    setupSuccess = init_OCR()
 
-    else:
-        print("setup successful, Starting OCR Run")
+    if not setupSuccess:
+        print("\tOCR Not Set Up! -> Running CropSetup")
+        cropSetup()
+        print("\tdone\n")
 
+    print("Loading OCR Settings")
+    mySet = loadSettings('ocrSettings.json')
 
-    #   dummy flag and counter for ending the run
-    endNow = False
-    dummyCounter = 0
+    print(f"Setup Complete -> Loop Mode: {mySet['loopMode']}")
 
-    #   not so sure about this loop
-    while (endNow == False):
-        print("\n\nNEW RUN!")
+    endFlag = False
 
-        print("Checking for kill signal")
-        response = respInter("Checking", "OCR")
-        if response == "Stop":
-            endNow = True
-        else:
-            endNow = dummyCounter > 50
+    while not endFlag:
+        print("\n--------Loop Starting--------\n")
 
-        if (endNow == False):
-            dummyCounter += 1
-        else:
-            print("\tProceeding")
+        #   run function that checks if loop should
+        endFlag = getEndConditions(mySet)
 
-        print(f"\nSampling... {dummyCounter}")
-        sampleRun()
-        print("Done Sampling - waiting")
-        time.sleep(1)
-        print("Done Waiting - loop over")
+        loopOnce(mySet)
 
+    #   loop has terminated
     print("\n\nSample Loop Completed!")
 
 
 #   single sampling run ->
-'''
-#   Take picture, save to file
-#   Crop Pictures, save to file
-#   Extract Strings from Crop, save to file
-#   Update Local Display
-#   UpdateFirebase
-'''
-def sampleRun():
-    print("In sample Run")
-    getData()
-    processData()
-    updateLocal()
-    updateServer()
+#   mySet = pcr settings, loaded in start
+def loopOnce(mySet):
+    print("In Loop Once...")
+    #   Take picture, save to file
+    #   Crop Pictures, save to file
+    getData(mySet['srcImg'], mySet['cropImgs'])
+
+    #   Extract Strings from Crop, save to file
+    cropText = processData(mySet['cropImgs'], mySet['cropPSM'], mySet['cropLang'])
+
+    print("Running Updates")
+    updateLocal(mySet, cropText)
+    updateServer(mySet['fb_url'], cropText)
+    print("\n>-------Loop COMPLETE-------<\n")
 
 

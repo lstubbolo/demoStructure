@@ -1,7 +1,6 @@
-import time
-from PiResponses import respInter
+from PiResponses import respond, check_LoopMode
 from Audio_Functions import *
-
+from FireBase_Functions import postFirebase
 
 #   record new sample
 def getData(samplePath):
@@ -28,11 +27,13 @@ def processData(samplePath, reference):
 #   any function calls that need to happen depending loop data should happen here
 def updateLocal(mySet, detected):
     #   update local values if audio signal was detected
-    if(detected):
-        print("Updating Local Variables")
+    #if(detected):
+    if(True):
+        print("Updating Local Stuff")
         print(f"\tSetting Audio Setting 'detected' to {detected}")
         mySet = changeSetting(mySet, 'detected', detected)
-        print("\tUpdating Screen, Local Triggers")
+
+        print("\t**NOT IMPLEMENTED-> UPDATE SCREEN")
         print()
     else:
         print(f"\tLocal Update Skipped Because detected: {detected}")
@@ -41,12 +42,14 @@ def updateLocal(mySet, detected):
 
 
 #   called during loop -> Push results to Firebase
-def updateServer(detected):
-    if(detected):
+def updateServer(fb_url, detected):
+    print(f"Updating Server")
+    # if(detected):
+    if (True):
         fb_message = {'audioDetected': detected}
-        print(f"\tUpdating Firebase with {fb_message}")
-        print(f"\t***STILL IN DEVELOPMENT***")
-        time.sleep(.25)
+
+        postFirebase(fb_url, fb_message)
+
         print("\tFirebase Update Complete")
         print()
 
@@ -57,24 +60,23 @@ def updateServer(detected):
 def getEndConditions(mySet):
     print("Checking Audio End Conditions")
 
-    #   checks for loop end due to loopMode Settings
+    #   checks for loop end due to loopMode mySet (in Utility Functions)
     if check_LoopMode(mySet):
         print("\tLoop Ended Due to Internal Trigger")
         print()
         return True
 
     #   Checks for loop end from to external input
-    if respInter("Checking", "OCR") == "Stop":
+    if respond("check", "audio") == "Stop":
         print("\tLoop Ended Due to External Trigger")
         print()
         return True
 
-    #   unique end conditions go here
 
     print("\tLoop Continuing")
     return False
 
-#   checks that main settings[Audio_Setup] flag is true
+#   checks that main mySet[Audio_Setup] flag is true
 def init_Audio():
     print("In init_Audio: Checking Audio Initialization")
 
@@ -86,7 +88,7 @@ def init_Audio():
     return flag == "True"
 
 
-#   sub controller function -> runs everything needed for OCR runs
+#   sub controller function -> runs everything needed for Audio runs
 def start():
     print("Audio Start function")
 
@@ -94,21 +96,14 @@ def start():
     setupSuccess = init_Audio()
 
     if not setupSuccess:
-        print("\tAudio Not Set Up! -> Running recordRef")
-        print()
+        print("\tAudio Not Set Up! -> Running recordRef\n")
         recordRef()
+        print("\tdone\n")
 
-        print(f"Reference Recorded -> Loading Audio Settings")
-        print()
+    print("Loading Audio Settings")
+    mySet = loadSettings('audioSettings.json')
 
-    else:
-        print("Audio Has been Set Up -> Loading Audio Settings")
-        print()
-
-
-    settings = loadSettings('audioSettings.json')
-
-    print(f"Setup Complete -> Loop Mode: {settings['loopMode']}")
+    print(f"Setup Complete -> Loop Mode: {mySet['loopMode']}")
 
     endFlag = False
 
@@ -116,9 +111,9 @@ def start():
         print("\n--------Loop Starting--------\n")
 
         #   run function that checks if loop should
-        endFlag = getEndConditions(settings)
+        endFlag = getEndConditions(mySet)
 
-        loopOnce(settings)
+        loopOnce(mySet)
 
     #   loop has terminated
     print("\n\nSample Loop Completed!")
@@ -133,5 +128,5 @@ def loopOnce(mySet):
 
     print("Running Updates")
     updateLocal(mySet, detected)
-    updateServer(detected)
+    updateServer(mySet['fb_url'], detected)
     print("\n>-------Loop COMPLETE-------<\n")
