@@ -58,7 +58,7 @@ def updateServer(fb_url, detected):
 
 #   checks internal end conditions for the sampling loop
 def getEndConditions(mySet):
-    print("Checking Audio End Conditions")
+    print("Checking OCR End Conditions")
 
     #   checks for loop end due to loopMode mySet (in Utility Functions)
     if check_LoopMode(mySet):
@@ -113,6 +113,7 @@ def start():
         #   run function that checks if loop should
         endFlag = getEndConditions(mySet)
 
+        #   runs exatly one loop
         loopOnce(mySet)
 
     #   loop has terminated

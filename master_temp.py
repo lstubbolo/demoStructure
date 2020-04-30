@@ -33,10 +33,27 @@ def EXIT():
     print(f"\tmainSettings.json deleted")
     '''
 
-
-
     print("Done Exit Process\nHave A Nice Day!")
     exit('\nExiting Program...')
+
+
+#   lets the user wipe all files of a specific type
+def WIPE():
+    print('You entered Wipe!)')
+    print('-> Enter file extension, 1 for a specific file, or nothing to cancel')
+    print('-> Please note, in pyCharm the list @ left is only updated after termination')
+    wipeInput = input('\nEnter(1, json, wav, jpg, png): ')
+
+
+    if wipeInput == '1':
+        oneInput = input('Please Enter [name].[ext]: ')
+        wipeOne(oneInput)
+
+    else:
+        wipeAll(wipeInput)
+
+
+
 
 #   init function for the entire project
 #   This function will automatically terminate with error
@@ -69,17 +86,22 @@ if __name__ == "__main__":
     #   make sure settings system is working, exit if there are issues
     init_Main()
 
-    menuString = "\nMAIN MENU\n1)\tSettings\n2)\tOCR\n3)\tAudio\n4)\tEXIT\n5)\t(re)Rec Reference\n6)\tPlay Reference\n7)\tClear Recordings\n"
-    options = {1: Settings, 2: OCR, 3: Audio, 4: EXIT, 5: recordAudio, 6: playReference, 7: clearAudio}
+    menus = ['Settings', 'OCR', 'Audio', 'EXIT', 'WIPE', 'Rec Ref', 'Play Ref']
+
+    options = {1: Settings, 2: OCR, 3: Audio, 4: EXIT, 5: WIPE, 6: recordAudio, 7: playReference}
 
     userInput = -1
 
 
     while userInput != 4:
-        print(menuString)
 
-        print("changing to test github")
-        userInput = int(input(f"Enter 1-{len(options)}: "))
-        options[userInput]()
+        print("MAIN MENU")
+        for str in menus:
+            print(f"{menus.index(str)+1}) {str}")
+
+        userInput = input(f"\nEnter 1-{len(options)}: ")
+        print("")
+        if userInput:
+            options[int(userInput)]()
 
         print("\nBack in Main Menu")
