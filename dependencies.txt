@@ -45,3 +45,11 @@ pip3 install sounddevice
 sudo apt-get install -y libasound-dev
 sudo apt-get install -y portaudio19-dev
 pip3 install pyaudio
+
+
+#   Settings to change, important info
+
+#Hide menu bar!
+R. Click Panel > Panel Settings > Advanced > "Hide When not in use" > Pixels = 0
+
+#   Touchscreen dimensions are 800 x 480 just fyi
