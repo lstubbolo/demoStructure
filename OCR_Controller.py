@@ -92,7 +92,7 @@ def start():
         print("\tdone\n")
 
     print("Loading OCR Settings")
-    mySet = loadSettings('ocrSettings.json')
+    mySet = loadSettings('OCRSettings.json')
 
     print(f"Setup Complete -> Loop Mode: {mySet['loopMode']}")
 

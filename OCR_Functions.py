@@ -22,7 +22,7 @@ def takeSource(srcPath=getFullPath('source.jpg')):
         print('->\tDuplicating Default \'kittens.jpg\' as \'source.jpg\'')
         shutil.copy(getFullPath('kittens.jpg'), srcPath)
 
-    print('\tSource Image copied')
+    print('\tSource Image Captured!\n')
 
 
 #   Generates Cropped Images from a Source Image
