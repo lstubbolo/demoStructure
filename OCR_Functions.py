@@ -2,6 +2,7 @@
 from Settings_Functions import *
 import shutil
 import cv2
+from DEFAULTS import SCREEN_DIMS
 try:
     import picamera
 except ModuleNotFoundError:
@@ -57,6 +58,7 @@ def showImage(imgPath = getFullPath('source.jpg')):
     print("print displaying image... Warning, this may crash all your shit...")
 
     def closeWin(event, x, y, flags, param):
+        print("\tClosing Image")
         cv2.destroyAllWindows()
 
     if(not os.path.exists(imgPath)):
@@ -66,7 +68,8 @@ def showImage(imgPath = getFullPath('source.jpg')):
     else:
         image = cv2.imread(imgPath)
         windowName = "Source Image"
+        cv2.namedWindow(windowName)
+        cv2.resizeWindow(windowName, SCREEN_DIMS['width'], SCREEN_DIMS['height'])
         cv2.imshow(windowName, image)
         cv2.setMouseCallback(windowName, closeWin)
         cv2.waitKey(0)
-
