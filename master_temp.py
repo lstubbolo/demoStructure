@@ -5,7 +5,7 @@ import Audio_Controller
 from Settings_Functions import *
 from Audio_Functions import playReference, recordAudio
 from FireBase_Functions import setupFirebase
-from OCR_Functions import takeSource
+from OCR_Functions import takeSource, showImage
 
 def Settings():
     print(f"\nSETTINGS ->\tThis function has access to settings json files")
@@ -83,9 +83,9 @@ if __name__ == "__main__":
     #   make sure settings system is working, exit if there are issues
     init_Main()
 
-    menus = ['Settings', 'OCR', 'Audio', 'EXIT', 'WIPE', 'Rec Ref', 'Play Ref', 'Take Pic']
+    menus = ['Settings', 'OCR', 'Audio', 'EXIT', 'WIPE', 'Rec Ref', 'Play Ref', 'Take Pic', 'Display Pic']
 
-    options = {1: Settings, 2: OCR, 3: Audio, 4: EXIT, 5: WIPE, 6: recordAudio, 7: playReference, 8: takeSource}
+    options = {1: Settings, 2: OCR, 3: Audio, 4: EXIT, 5: WIPE, 6: recordAudio, 7: playReference, 8: takeSource, 9: showImage}
 
     userInput = -1
 

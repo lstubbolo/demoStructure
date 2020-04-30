@@ -53,9 +53,20 @@ def cropSetup():
 
 #   attempts to display the image at the provided path
 def showImage(imgPath = getFullPath('source.jpg')):
-    image = cv2.imread(imgPath)
-    windowName = "Source Image"
-    cv2.imshow(windowName, image)
-    cv2.setMouseCallback(windowName, cv2.destroyAllWindows())
-    cv2.waitKey(0)
+
+    print("print displaying image... Warning, this may crash all your shit...")
+
+    def closeWin(event, x, y, flags, param):
+        cv2.destroyAllWindows()
+
+    if(not os.path.exists(imgPath)):
+        print("No Source Image, Fool! Run takeSource!")
+        return
+
+    else:
+        image = cv2.imread(imgPath)
+        windowName = "Source Image"
+        cv2.imshow(windowName, image)
+        cv2.setMouseCallback(windowName, closeWin)
+        cv2.waitKey(0)
 
