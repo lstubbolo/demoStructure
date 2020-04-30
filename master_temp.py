@@ -76,10 +76,6 @@ def init_Main():
         print("Failed to Load / Generate Main Settings")
         exit("Main Settings Failure")
 
-    #   Check if firebase should be connected then do it
-    if mainSet['FB_Enabled'] == 'True':
-        setupFirebase()
-
 
 # main
 if __name__ == "__main__":

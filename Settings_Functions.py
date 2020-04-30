@@ -76,26 +76,19 @@ def loadSettings(fileName):
 #   saves file and returns object
 def genSettings(name, path):
     print(f"Generating Default Settings File: {name}")
-    #   gets default object saved in DEFAULTS
 
+    defSetting = {}
+
+    #   gets default object saved in DEFAULTS
     try:
         defSetting = LIST_ALL[name]
     except(NameError, KeyError) as error:
-        print(f"No settings default for {name}... Exiting")
-        exit(1)
-
-    #   check if object was loaded
-    if defSetting:
-        #   write object to file
-        with open(path, 'w') as myFile:
-            myFile.write(json.dumps(defSetting))
-
-        #   system must exit for file to show up
-        #exit(f"Created Settings File ({name})")
-
-    else:
-        print(f"\n\nError -> settings file{name} unable to be generated.")
+        print(f"No settings default for {name}...")
         exit('Terminating in genSettings: cannot find default object')
+
+        #   write object to file
+    with open(path, 'w') as myFile:
+        myFile.write(json.dumps(defSetting))
 
     return defSetting
 
