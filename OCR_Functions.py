@@ -1,6 +1,7 @@
 #   All OCR-related functions go in here
 from Settings_Functions import *
 import shutil
+import cv2
 try:
     import picamera
 except ModuleNotFoundError:
@@ -49,3 +50,12 @@ def cropSetup():
 
     print("\tManually Setting OCR Setup Flag to True in Main Settings")
     changeSetting(loadSettings('mainSettings.json'), 'OCR_Setup', True)
+
+#   attempts to display the image at the provided path
+def showImage(imgPath = getFullPath('source.jpg')):
+    image = cv2.imread(imgPath)
+    windowName = "Source Image"
+    cv2.imshow(windowName, image)
+    cv2.setMouseCallback(windowName, cv2.destroyAllWindows())
+    cv2.waitKey(0)
+
