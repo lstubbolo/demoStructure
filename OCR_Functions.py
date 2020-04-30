@@ -1,13 +1,29 @@
 #   All OCR-related functions go in here
 from Settings_Functions import *
+import shutil
+try:
+    import picamera
+except ModuleNotFoundError:
+    print('picamera not found - camera functions will not work')
 
 
 #   takes the source picture
-def takeSource(srcPath):
-    print(f"Capturing Source Image, saving to '{srcPath}'")
-    print("\t**NOT IMPLEMENTED-> CAPTURE SOURCE IMAGE")
+def takeSource(srcPath=getFullPath('source.jpg')):
+    print(f"Capturing Source Image, saving to \n\t'{srcPath}'")
 
-    print()
+    try:
+        with picamera.PiCamera() as camera:
+            camera.capture(srcPath)
+            camera.stop_preview()
+            camera.close()
+
+    except NameError:
+        print('**Cannot Use Camera On This System')
+        print('->\tDuplicating Default \'kittens.jpg\' as \'source.jpg\'')
+        shutil.copy(getFullPath('kittens.jpg'), srcPath)
+
+    print('\tSource Image copied')
+
 
 #   Generates Cropped Images from a Source Image
 def cropSource(cropImgs):
@@ -25,6 +41,7 @@ def doOCR(image, PSM, lang):
     print("\t**IMPLEMENTED BUT NOT INTEGRATED -> David's Code")
     print(f"\tpath: {image}, PSM: {PSM}, lang: {lang}")
 
+
 #   Cropping Setup Function
 def cropSetup():
     print("Cropping Setup Function")
@@ -32,4 +49,3 @@ def cropSetup():
 
     print("\tManually Setting OCR Setup Flag to True in Main Settings")
     changeSetting(loadSettings('mainSettings.json'), 'OCR_Setup', True)
-

@@ -77,7 +77,12 @@ def loadSettings(fileName):
 def genSettings(name, path):
     print(f"Generating Default Settings File: {name}")
     #   gets default object saved in DEFAULTS
-    defSetting = LIST_ALL[name]
+
+    try:
+        defSetting = LIST_ALL[name]
+    except(NameError, KeyError) as error:
+        print(f"No settings default for {name}... Exiting")
+        exit(1)
 
     #   check if object was loaded
     if defSetting:

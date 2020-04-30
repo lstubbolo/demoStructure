@@ -12,7 +12,7 @@ MAIN_OBJ = {
             }
 
 OCR_OBJ = {
-            'self': 'ocrSettings.json',
+            'self': 'OCRSettings.json',
             'fb_url': 'filler_audio_url',
             'loopMode': 'single',
             'loopEnd': '',
@@ -53,7 +53,7 @@ GUI_OBJ = {
 #   List of all settings objects -> used when generating missing files
 LIST_ALL = {
             'mainSettings.json': MAIN_OBJ,
-            'ocrSettings.json': OCR_OBJ,
+            'OCRSettings.json': OCR_OBJ,
             'audioSettings.json': AUDIO_OBJ,
             'firebaseSettings.json': FB_OBJ,
             'guiSettings.json': GUI_OBJ,

@@ -20,9 +20,12 @@ def runBashScript(scriptName, args=()):
 
 #   removes all files in root directory of the specified type(if allowable)
 def wipeAll(fileType):
-    allowable = ('.wav', '.json', '.png', '.jpeg')
-    #   check if you are allowed to remove this type of file
+    allowable = ('.wav', '.json', '.png', '.jpg')
 
+    #   you must never delete the kittens
+    forbidden = (os.path.join(os.path.dirname(__file__), 'kittens.jpg'))
+
+    #   check if you are allowed to remove this type of file
     #   break if input is empty
     if not (fileType):
         return
@@ -45,7 +48,10 @@ def wipeAll(fileType):
 
         for file in allType:
             path_to_file = os.path.join(directory, file)
-            os.remove(path_to_file)
+
+            #   remove file if not in list of forbidden files
+            if forbidden.find(path_to_file) < 0:
+                os.remove(path_to_file)
 
         print(f"\tAll {fileType} files Removed")
         print()
@@ -53,14 +59,18 @@ def wipeAll(fileType):
 
 #   attempts to remove a specific file if it exists and is of an allowable filetype
 def wipeOne(fileName):
-    allowable = ('.wav', '.json', '.png', '.jpeg')
+    allowable = ('.wav', '.json', '.png', '.jpg')
+    forbidden = (os.path.join(os.path.dirname(__file__), 'kittens.jpg'))
+
+    print(forbidden)
 
     #   check if file is of an allowable type, exit if invalid
     valid = False
     for allowed in allowable:
-        if(fileName.find(allowed) > 0):
+        if fileName.find(allowed) > -1:
             valid = True
             break
+
     if not valid:
         print(f"{fileName} has invalid file type")
         return
@@ -70,6 +80,11 @@ def wipeOne(fileName):
         #   get ablsolute path to file
         directory = os.path.dirname(__file__)
         fullPath = os.path.join(directory, fileName)
+
+        #   check if removal of this file is explicitly forbidden
+        if forbidden.find(fullPath) > -1:
+            print("you aren't allowed to delete the kittens picture... jerk")
+            return
 
         #   exit if file not found
         if not os.path.exists(fullPath):
