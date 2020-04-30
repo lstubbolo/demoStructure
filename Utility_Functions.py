@@ -2,11 +2,13 @@ import subprocess
 import os
 from datetime import datetime, timedelta
 import json
+import sys
+
 
 #   This is the least secure code I think i have ever written
 #   attempts to run the bash script based on the name provided
 #   args are optional, but
-def runBashScript(scriptName, args = ()):
+def runBashScript(scriptName, args=()):
     directory = os.path.dirname(__file__)
     filePath = os.path.join(directory, scriptName)
     try:
@@ -17,42 +19,83 @@ def runBashScript(scriptName, args = ()):
 
 
 #   removes all files in root directory of the specified type(if allowable)
-def wipeAll(type):
-    allowable = ('.wav', '.json', '.png', '.jpeg')
+def wipeAll(fileType):
+    allowable = ('.wav', '.json', '.png', '.jpg')
+
+    #   you must never delete the kittens
+    forbidden = (os.path.join(os.path.dirname(__file__), 'kittens.jpg'))
+
     #   check if you are allowed to remove this type of file
+    #   break if input is empty
+    if not (fileType):
+        return
 
-    if not allowable.__contains__(type):
-        print(f"You can't remove '{type}' files")
-        exit(f'Stupd MF Tried to delete {type} files')
+    if fileType.find('.') < 0:
+        fileType = '.' + fileType
+        print(f"inserting '.', type is now {fileType}")
+
+    if not allowable.__contains__(fileType):
+        print(f"You can't remove '{fileType}' files")
+
     else:
-        print(f"Removing all files ending with '{type}'")
 
+        #   makes a list of all files in the root directory
         directory = os.path.dirname(__file__)
         allFiles = os.listdir(directory)
-        allWav = [f for f in allFiles if f.endswith(type)]
 
-        for file in allWav:
+        #   extract all files ending with the provided filetype
+        allType = [f for f in allFiles if f.endswith(fileType)]
+
+        for file in allType:
             path_to_file = os.path.join(directory, file)
-            os.remove(path_to_file)
 
-        print(f"\tAll {type} files Removed")
+            #   remove file if not in list of forbidden files
+            if forbidden.find(path_to_file) < 0:
+                os.remove(path_to_file)
+
+        print(f"\tAll {fileType} files Removed")
         print()
 
 
-#   checks loop ending conditions common to both kinds of loop
-def check_LoopMode(mySet):
-    if mySet['loopMode'] == 'infinite':
-        return False
+#   attempts to remove a specific file if it exists and is of an allowable filetype
+def wipeOne(fileName):
+    allowable = ('.wav', '.json', '.png', '.jpg')
+    forbidden = (os.path.join(os.path.dirname(__file__), 'kittens.jpg'))
 
-    if mySet['loopMode'] == 'single':
-        return True
+    print(forbidden)
 
-    #   returns true if enough time has passed
-    if mySet['loopMode'] == 'duration':
-        return checkTime(mySet['loopEnd'])
+    #   check if file is of an allowable type, exit if invalid
+    valid = False
+    for allowed in allowable:
+        if fileName.find(allowed) > -1:
+            valid = True
+            break
 
+    if not valid:
+        print(f"{fileName} has invalid file type")
+        return
+
+    #   check if file exists
     else:
-        return False
+        #   get ablsolute path to file
+        directory = os.path.dirname(__file__)
+        fullPath = os.path.join(directory, fileName)
+
+        #   check if removal of this file is explicitly forbidden
+        if forbidden.find(fullPath) > -1:
+            print("you aren't allowed to delete the kittens picture... jerk")
+            return
+
+        #   exit if file not found
+        if not os.path.exists(fullPath):
+            print("File not found!")
+            return
+
+        #   remove the file if it is found
+        else:
+            os.remove(fullPath)
+            print("File Removed")
+
 
 #   datetime stuff
 
@@ -67,4 +110,3 @@ def checkTime(input):
     endTime = datetime.strptime(json.loads(input), '%Y-%m-%d %H:%M:%S')
     current = datetime.now().replace(microsecond=0)
     return current > endTime
-

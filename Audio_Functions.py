@@ -76,10 +76,4 @@ def playReference():
     if(os.path.exists(filePath)):
         runBashScript('playSound.sh', filePath)
     else:
-        print("No file to play, you fool! Record one first!")
-
-#   deletes all audio files in the project directory
-def clearAudio():
-    print("wiping ")
-    wipeAll('.wav')
-
+        print("No file to play you fool! Record one first!")

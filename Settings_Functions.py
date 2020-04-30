@@ -44,7 +44,7 @@ def loadSettings(fileName):
 
     #   if missing or empty generate and save default file
     if (missing or empty):
-        print(f"Error Loading {fileName}\n\tMissing: {missing}\n\tEmpty: {empty}")
+        print(f"Error Loading {fileName}\n\tMissing: {missing}\t\tEmpty: {empty}")
         print()
 
         settingsObj = genSettings(fileName, filePath)
@@ -55,12 +55,12 @@ def loadSettings(fileName):
 
     #   load
     else:
-        print(f"Settings File '{fileName}' Located and Non-Empty")
+        #print(f"Settings File '{fileName}' Located and Non-Empty")
         with open(filePath, 'r') as myFile:
             settingsObj = json.load(myFile)
 
-        print("\tFile Loaded Successfully")
-        print()
+        #print("\tFile Loaded Successfully")
+       # print()
 
     '''
     print("settings object in load settings function:")
@@ -76,21 +76,19 @@ def loadSettings(fileName):
 #   saves file and returns object
 def genSettings(name, path):
     print(f"Generating Default Settings File: {name}")
+
+    defSetting = {}
+
     #   gets default object saved in DEFAULTS
-    defSetting = LIST_ALL[name]
-
-    #   check if object was loaded
-    if defSetting:
-        #   write object to file
-        with open(path, 'w') as myFile:
-            myFile.write(json.dumps(defSetting))
-
-        #   system must exit for file to show up
-        #exit(f"Created Settings File ({name})")
-
-    else:
-        print(f"\n\nError -> settings file{name} unable to be generated.")
+    try:
+        defSetting = LIST_ALL[name]
+    except(NameError, KeyError) as error:
+        print(f"No settings default for {name}...")
         exit('Terminating in genSettings: cannot find default object')
+
+        #   write object to file
+    with open(path, 'w') as myFile:
+        myFile.write(json.dumps(defSetting))
 
     return defSetting
 
