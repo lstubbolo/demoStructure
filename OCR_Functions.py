@@ -72,8 +72,8 @@ def showImage(imgPath = getFullPath('source.jpg')):
 
         cv2.namedWindow(windowName, cv2.WINDOW_AUTOSIZE)
         cv2.resizeWindow(windowName, SCREEN_DIMS['width'], SCREEN_DIMS['height'])
+        cv2.setMouseCallback(windowName, closeWin)
 
         cv2.imshow(windowName, image)
         cv2.waitKey(0)
-        cv2.setMouseCallback(windowName, closeWin)
 
