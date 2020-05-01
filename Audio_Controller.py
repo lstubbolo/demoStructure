@@ -60,6 +60,11 @@ def updateServer(fb_url, detected):
 def getEndConditions(mySet):
     print("Checking OCR End Conditions")
 
+
+    #   loop mode -> run once or run for time
+
+
+
     #   checks for loop end due to loopMode mySet (in Utility Functions)
     if check_LoopMode(mySet):
         print("\tLoop Ended Due to Internal Trigger")
@@ -109,6 +114,7 @@ def start():
 
     while not endFlag:
         print("\n--------Loop Starting--------\n")
+
 
         #   run function that checks if loop should
         endFlag = getEndConditions(mySet)
