@@ -111,15 +111,15 @@ class MainMenu(tk.Frame):
         quit_btn_func = lambda: (test.pre_quit(),
                                  controller.destroy())
 
-        start_stop_ocr_btn          = tk.Button(self, height=50, width=100,  text="OCR", command=ocr_btn_func)
-        start_stop_audio_btn        = tk.Button(self, height=50, width=100,  text="Audio", command=audio_btn_func)
-        settings_btn                = tk.Button(self, height=50, width=100,  text="Settings", command=settings_btn_func)
-        quit_btn                    = tk.Button(self, height=50, width=100,  text="Quit", command=quit_btn_func)
+        start_stop_ocr_btn          = tk.Button(self, text="OCR",    command=ocr_btn_func)
+        start_stop_audio_btn        = tk.Button(self, text="Audio",  command=audio_btn_func)
+        settings_btn                = tk.Button(self, text="Settings", command=settings_btn_func)
+        quit_btn                    = tk.Button(self, text="Quit", command=quit_btn_func)
 
-        start_stop_ocr_btn.pack()
-        start_stop_audio_btn.pack()
-        settings_btn.pack()
-        quit_btn.pack()
+        start_stop_ocr_btn.pack(side="top", fill="both")
+        start_stop_audio_btn.pack(side="top", fill="both")
+        settings_btn.pack(side="top", fill="both")
+        quit_btn.pack(side="top", fill="both")
 
 '''
         self.count = 0
