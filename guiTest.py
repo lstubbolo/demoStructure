@@ -91,17 +91,18 @@ class MainMenu(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        label = tk.Label(self, text="Main Menu", font=controller.title_font)
+        label = tk.Label(self, text="TEST GUI", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
 
         ocr_btn_func = lambda: (test.pre_ocr(),
                                 controller.set_return_frame("MainMenu"),
-                                controller.show_frame("OCRRuntime"))
+                                '''controller.show_frame("OCRRuntime")''')
         audio_btn_func = lambda: (test.pre_audio(),
                                   controller.set_return_frame("MainMenu"),
-                                  controller.show_frame("AudioRuntime"))
+                                  '''controller.show_frame("AudioRuntime")''')
         settings_btn_func = lambda: (test.pre_settings(),
-                                     controller.show_frame("Settings"))
+                                     controller.set_return_frame("MainMenu"),
+                                     '''controller.show_frame("Settings")''')
         quit_btn_func = lambda: (test.pre_quit(),
                                  controller.destroy())
 
