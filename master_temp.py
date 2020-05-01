@@ -84,7 +84,7 @@ if __name__ == "__main__":
     #   make sure settings system is working, exit if there are issues
     init_Main()
 
-    menus = ['Settings', 'OCR', 'Audio', 'EXIT', 'WIPE', 'Rec Ref', 'Play Ref', 'Take Pic', 'Display Pic']
+    menus = ['Settings', 'OCR', 'Audio', 'EXIT', 'WIPE', 'Rec Ref', 'Play Ref', 'Take Pic', 'Display Pic', 'Test GUI']
 
     options = {1: Settings, 2: OCR, 3: Audio, 4: EXIT, 5: WIPE, 6: recordAudio, 7: playReference, 8: takeSource,
                9: showImage, 0: launchTestGUI}
