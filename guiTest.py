@@ -27,6 +27,9 @@ class SmartnodeGUI(tk.Tk):
 
         self.title_font = tkfont.Font(family='Helvetica', size=36, weight="bold", slant="italic")
 
+        self.buttonFont = tkfont.Font(family='Helvetica', size=36, weight="bold")
+        
+        
         # the container is where we'll stack a bunch of frames
         # on top of each other, then the one we want visible
         # will be raised above the others
@@ -94,6 +97,8 @@ class MainMenu(tk.Frame):
         label = tk.Label(self, text="MainMenu", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
 
+        
+
         ocr_btn_func = lambda: (test.pre_ocr(),
                                 controller.set_return_frame("MainMenu"),
                                 '''controller.show_frame("OCRRuntime")''')
@@ -106,10 +111,10 @@ class MainMenu(tk.Frame):
         quit_btn_func = lambda: (test.pre_quit(),
                                  controller.destroy())
 
-        start_stop_ocr_btn          = tk.Button(self, text="OCR", command=ocr_btn_func)
-        start_stop_audio_btn        = tk.Button(self, text="Audio", command=audio_btn_func)
-        settings_btn                = tk.Button(self, text="Settings", command=settings_btn_func)
-        quit_btn                    = tk.Button(self, text="Quit", command=quit_btn_func)
+        start_stop_ocr_btn          = tk.Button(self, height=90, width=200,  text="OCR", command=ocr_btn_func)
+        start_stop_audio_btn        = tk.Button(self, height=90, width=200,  text="Audio", command=audio_btn_func)
+        settings_btn                = tk.Button(self, height=90, width=200,  text="Settings", command=settings_btn_func)
+        quit_btn                    = tk.Button(self, height=90, width=200,  text="Quit", command=quit_btn_func)
 
         start_stop_ocr_btn.pack()
         start_stop_audio_btn.pack()
@@ -153,13 +158,13 @@ class Settings(tk.Frame):
                                  controller.show_frame("MainMenu"))
 
 #
-        ocr_settings_btn = tk.Button(self, text="OCR Settings",
+        ocr_settings_btn = tk.Button(self, height=90, width=200, text="OCR Settings",
                                      command=ocr_settings_func)
-        audio_settings_btn = tk.Button(self, text="Audio Settings",
+        audio_settings_btn = tk.Button(self, height=90, width=200,  text="Audio Settings",
                                        command=audio_settings_func)
-        finger_settings_btn = tk.Button(self, text="Finger Settings",
+        finger_settings_btn = tk.Button(self, height=90, width=200,  text="Finger Settings",
                                         command=finger_settings_func)
-        back_button = tk.Button(self, text="Go back",
+        back_button = tk.Button(self, height=90, width=200,  text="Go back",
                                 command=back_btn_func)
 
         ocr_settings_btn.pack()
