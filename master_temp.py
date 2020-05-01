@@ -59,7 +59,6 @@ def launchTestGUI():
     print("Launching Smartnode GUI")
     app = SmartnodeGUI()
     app.mainloop()
-    app.quit()
     print("GUI has closed")
 
 

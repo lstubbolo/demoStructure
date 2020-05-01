@@ -97,21 +97,26 @@ def init_Audio():
 def start():
     print("Audio Start function")
 
-    #   checks that device setup was completed
+    #   THis just checks main menu flags for whether the record REF funcion has been called
     setupSuccess = init_Audio()
+
+    #   take this auto call out -> switch to sample setup
 
     if not setupSuccess:
         print("\tAudio Not Set Up! -> Running recordRef\n")
+
+        #   map this function to the record button
         recordRef()
         print("\tdone\n")
 
+
+    #   copy this
     print("Loading Audio Settings")
     mySet = loadSettings('audioSettings.json')
 
     print(f"Setup Complete -> Loop Mode: {mySet['loopMode']}")
 
     endFlag = False
-
     while not endFlag:
         print("\n--------Loop Starting--------\n")
 

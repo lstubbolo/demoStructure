@@ -55,7 +55,6 @@ def cropSetup():
 
 #   attempts to display the image at the provided path
 def showImage(imgPath = getFullPath('source.jpg')):
-
     print("print displaying image... Warning, this may crash all your shit...")
 
     def closeWin(event, x, y, flags, param):
