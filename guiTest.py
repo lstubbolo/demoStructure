@@ -36,27 +36,25 @@ class SmartnodeGUI(tk.Tk):
         # list of all frame classes
         self.frames = {}
         frame_classes = (
-            MainMenu,
+            MainMenu
             #Settings,
 
-'''
 
-            ocr_gui.OCRRuntime,
-            ocr_gui.OCRSettings,
-            ocr_gui.CropSetup,
-            ocr_gui.CropSetup2,
-            ocr_gui.OCRModeSetup,
-            ocr_gui.OCRStatus,
-
-            audio_gui.AudioRuntime,
-            audio_gui.AudioSettings,
-            audio_gui.AudioStatus,
-            audio_gui.AudioModeSetup,
-            audio_gui.SampleSetup,
-
-            finger_gui.FingerSettings
+            # ocr_gui.OCRRuntime,
+            # ocr_gui.OCRSettings,
+            # ocr_gui.CropSetup,
+            # ocr_gui.CropSetup2,
+            # ocr_gui.OCRModeSetup,
+            # ocr_gui.OCRStatus,
+            #
+            # audio_gui.AudioRuntime,
+            # audio_gui.AudioSettings,
+            # audio_gui.AudioStatus,
+            # audio_gui.AudioModeSetup,
+            # audio_gui.SampleSetup,
+            #
+            # finger_gui.FingerSettings
             
-'''
         )
 
         for F in frame_classes:
@@ -91,7 +89,7 @@ class MainMenu(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        label = tk.Label(self, text="TEST GUI", font=controller.title_font)
+        label = tk.Label(self, text="MainMenu", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
 
         ocr_btn_func = lambda: (test.pre_ocr(),
