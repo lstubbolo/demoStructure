@@ -52,6 +52,7 @@ def cropSetup():
     print("\tManually Setting OCR Setup Flag to True in Main Settings")
     changeSetting(loadSettings('mainSettings.json'), 'OCR_Setup', True)
 
+
 #   attempts to display the image at the provided path
 def showImage(imgPath = getFullPath('source.jpg')):
 
@@ -71,6 +72,7 @@ def showImage(imgPath = getFullPath('source.jpg')):
 
         cv2.namedWindow(windowName, cv2.WINDOW_AUTOSIZE)
         cv2.resizeWindow(windowName, SCREEN_DIMS['width'], SCREEN_DIMS['height'])
+
         cv2.imshow(windowName, image)
 
         cv2.setMouseCallback(windowName, closeWin)

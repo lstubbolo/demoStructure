@@ -3,6 +3,7 @@ from PiResponses import respond, check_LoopMode
 from OCR_Functions import *
 from FireBase_Functions import postFirebase
 
+testVar = {'hello', 'world'}
 
 #   get data function -> for OCR this means taking a picture and cropping
 def getData(src, cropImgs):
@@ -98,16 +99,20 @@ def start():
 
     endFlag = False
 
-    while not endFlag:
+    global testVar
+    testVar['hello'] = 'Bryan'
+
+    runLoop(endFlag, mySet)
+
+
+def runLoop(endFlag, mySet):
         print("\n--------Loop Starting--------\n")
 
+        print()
         #   run function that checks if loop should
         endFlag = getEndConditions(mySet)
 
         loopOnce(mySet)
-
-    #   loop has terminated
-    print("\n\nSample Loop Completed!")
 
 
 #   single sampling run ->

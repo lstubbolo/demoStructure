@@ -9,6 +9,7 @@ from Settings_Functions import *
 
 #   WARNING WAITS FOR SPECIFIED TIME
 def recordAudio(path = getFullPath('reference.wav'), recTime = .5):
+
     sampleRate = 44100  # Sample rate
     try:
         myrecording = sd.rec(int(recTime * sampleRate), samplerate=sampleRate, channels=1)
