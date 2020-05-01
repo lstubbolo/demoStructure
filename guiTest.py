@@ -19,9 +19,11 @@ class SmartnodeGUI(tk.Tk):
         window_length = round(SCREEN_DIMS['height'] / 1)
         window_x = round(SCREEN_DIMS['width'] * 3 / 5)
         window_y = round(SCREEN_DIMS['height'] * 2 / 5)
-        geometry_dimensions = "%dx%d+%d+%d" % (window_width, window_length, window_x, window_y)
+        geometry_dimensions = "%dx%d+%d+%d" % (window_width, window_length, 0, 0)
 
         self.geometry(geometry_dimensions)
+
+        self.attributes('-fullscreen', True)
 
         self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold", slant="italic")
 
@@ -104,12 +106,12 @@ class MainMenu(tk.Frame):
         quit_btn_func = lambda: (test.pre_quit(),
                                  controller.destroy())
 
-        self.start_stop_ocr_btn     = tk.Button(self, text="OCR", command=ocr_btn_func)
+        start_stop_ocr_btn          = tk.Button(self, text="OCR", command=ocr_btn_func)
         start_stop_audio_btn        = tk.Button(self, text="Audio", command=audio_btn_func)
         settings_btn                = tk.Button(self, text="Settings", command=settings_btn_func)
         quit_btn                    = tk.Button(self, text="Quit", command=quit_btn_func)
 
-        self.start_stop_ocr_btn.pack()
+        start_stop_ocr_btn.pack()
         start_stop_audio_btn.pack()
         settings_btn.pack()
         quit_btn.pack()
