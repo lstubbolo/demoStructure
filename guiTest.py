@@ -25,7 +25,7 @@ class SmartnodeGUI(tk.Tk):
 
         self.attributes('-fullscreen', True)
 
-        self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold", slant="italic")
+        self.title_font = tkfont.Font(family='Helvetica', size=36, weight="bold", slant="italic")
 
         # the container is where we'll stack a bunch of frames
         # on top of each other, then the one we want visible
