@@ -4,15 +4,6 @@ from  time import sleep
 #   This set of function handles saving / loading settings
 
 
-#   returns the absolute path to the local path provided
-def getFullPath(fileName):
-    #   gets the directory of the file
-    directory = os.path.dirname(__file__)
-
-    #   set path to json file-> append file name to directory
-    filePath = os.path.join(directory, fileName)
-
-    return filePath
 
 
 #   changes setting in object, saves it to file, returns the modified version
