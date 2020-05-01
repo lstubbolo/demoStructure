@@ -6,7 +6,7 @@ from Settings_Functions import *
 from Audio_Functions import playReference, recordAudio
 from FireBase_Functions import setupFirebase
 from OCR_Functions import takeSource, showImage
-from guiTest import launchTestGUI
+from guiTest import*
 
 def Settings():
     print(f"\nSETTINGS ->\tThis function has access to settings json files")
@@ -54,6 +54,11 @@ def WIPE():
     else:
         wipeAll(wipeInput)
 
+#   launches test GUI
+def launchTestGUI():
+    print("Launching Smartnode GUI")
+    app = SmartnodeGUI()
+    app.mainloop()
 
 
 
@@ -87,7 +92,7 @@ if __name__ == "__main__":
     menus = ['Settings', 'OCR', 'Audio', 'EXIT', 'WIPE', 'Rec Ref', 'Play Ref', 'Take Pic', 'Display Pic', 'Test GUI']
 
     options = {1: Settings, 2: OCR, 3: Audio, 4: EXIT, 5: WIPE, 6: recordAudio, 7: playReference, 8: takeSource,
-               9: showImage, 0: launchTestGUI}
+               9: showImage, 10: launchTestGUI}
 
     userInput = -1
 

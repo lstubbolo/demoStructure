@@ -169,7 +169,3 @@ class Settings(tk.Frame):
 '''
 
 #if __name__ == "__main__":
-def launchTestGUI():
-    print("Launching Smartnode GUI")
-    app = SmartnodeGUI()
-    app.mainloop()
