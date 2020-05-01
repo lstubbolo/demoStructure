@@ -98,7 +98,9 @@ if __name__ == "__main__":
 
         userInput = input(f"\nEnter 1-{len(options)}: ")
         print("")
-        if userInput:
+        try:
             options[int(userInput)]()
+        except ValueError:
+            pass
 
         print("\nBack in Main Menu")
