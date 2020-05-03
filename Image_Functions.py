@@ -1,9 +1,7 @@
 import os
 import cv2
-
 from CoordObj import coordObj
-
-SCREEN_DIMS = {'width': 799, 'height': 479}
+from DEFAULTS import SCREEN_DIMS
 
 
 #   CRASHES ON MAC DO NOT RUN

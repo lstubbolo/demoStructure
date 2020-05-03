@@ -1,7 +1,7 @@
 #   constants for screen size -> probably should add this to a CONSTANTS.py file
-MAX_X = 1280
-MAX_Y = 960
-
+# MAX_X = 1280
+# MAX_Y = 960
+from DEFAULTS import SCREEN_DIMS
 
 #   child object of coordList container - represents a boundary box for cropping
 #   Louis Stubbolo, with help from Teddy K, April 2020
@@ -12,6 +12,9 @@ class coordObj:
     name = "coord"
     topL = (50, 50)
     botR = (100, 100)
+
+    MAX_X = SCREEN_DIMS['width']
+    MAX_Y = SCREEN_DIMS['height']
 
     #   constructor with optional arguments
     #   Note! These arguments are positional! This means that you can
