@@ -53,3 +53,10 @@ pip3 install pyaudio
 R. Click Panel > Panel Settings > Advanced > "Hide When not in use" > Pixels = 0
 
 #   Touchscreen dimensions are 800 x 480 just fyi
+
+#   stuff needed for firebase
+Pip3 firebase
+Pip3 python_jwt
+Pip3 install gcloud
+Pip3 install sseclient
+Pip3 install firebase_admin
