@@ -122,8 +122,8 @@ class coordObj:
     #   returns false if provided coordinate is outside the boundaries of the screen area
     def checkBounds(self, testCoord):
 
-        x_bound = MAX_X > testCoord[0] >= 0
-        y_bound = MAX_Y > testCoord[1] >= 0
+        x_bound = self.MAX_X > testCoord[0] >= 0
+        y_bound = self.MAX_Y > testCoord[1] >= 0
 
         return x_bound and y_bound
 

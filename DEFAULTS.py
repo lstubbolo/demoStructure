@@ -60,4 +60,4 @@ LIST_ALL = {
 LOOP_TYPES = {'infinite', 'single', 'timed'}
 
 #   touchscreen dimensions
-SCREEN_DIMS = {'width': 800,    'height': 480 }
+SCREEN_DIMS = {'width': 800,    'height': 480}
