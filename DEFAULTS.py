@@ -43,12 +43,9 @@ FB_OBJ = {
             'msg_dest_url': ''
 }
 
-#   Not used yet, not sure why I made this...
-GUI_OBJ = {
-            'self': 'guiSettings.json',
-            'stopRequest': 'False',
-            'msg_to_GUI': ''
-}
+
+COORD_FILE = {}
+
 
 #   List of all settings objects -> used when generating missing files
 LIST_ALL = {
@@ -56,7 +53,7 @@ LIST_ALL = {
             'OCRSettings.json': OCR_OBJ,
             'audioSettings.json': AUDIO_OBJ,
             'firebaseSettings.json': FB_OBJ,
-            'guiSettings.json': GUI_OBJ,
+            'coordFile.json': COORD_FILE,
 }
 
 #   list of valid loop types
