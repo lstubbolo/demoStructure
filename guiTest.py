@@ -1,11 +1,12 @@
 #   This file contains the tkinter setup processes as well as the classes for
-#   the Main Menu and Settings screens
+#   the Main Menu and crop_img screens
 
 import tkinter as tk  # python 3
-from tkinter import font  as tkfont  # python 3
+from tkinter import font as tkfont  # python 3
 from DEFAULTS import SCREEN_DIMS
-import versionControl as test
+from global_variables import BUTTON_HEIGHT, BUTTON_WIDTH
 
+from Button_Functions import imgTestFns, mainMenuFns
 UPDATE_RATE = 1000
 
 
@@ -15,24 +16,19 @@ class SmartnodeGUI(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
 
-        window_width = round(SCREEN_DIMS['width'] / 1)
-        window_length = round(SCREEN_DIMS['height'] / 1)
-        window_x = round(10)
-        window_y = round(10)
+        window_width = round(SCREEN_DIMS['width'])
+        window_length = round(SCREEN_DIMS['height'])
+
         geometry_dimensions = "%dx%d+%d+%d" % (window_width, window_length, 0, 0)
 
         self.geometry(geometry_dimensions)
 
-        #self.attributes('-fullscreen', True)
-
         self.title_font = tkfont.Font(family='Helvetica', size=36, weight="bold", slant="italic")
+        self.buttonFont = tkfont.Font(family='Helvetica', size=-50, weight="bold")
+        #self.buttonFont.metrics(linespace=0)
 
-        self.buttonFont = tkfont.Font(family='Helvetica', size=36, weight="bold")
-        
-        
-        # the container is where we'll stack a bunch of frames
-        # on top of each other, then the one we want visible
-        # will be raised above the others
+        # the container is where we'll stack a bunch of frames on top of each other
+        # the one we want visible will be raised above the others
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
         container.grid_rowconfigure(0, weight=1)
@@ -42,24 +38,7 @@ class SmartnodeGUI(tk.Tk):
         self.frames = {}
         frame_classes = (
             MainMenu,
-            Settings
-
-
-            # ocr_gui.OCRRuntime,
-            # ocr_gui.OCRSettings,
-            # ocr_gui.CropSetup,
-            # ocr_gui.CropSetup2,
-            # ocr_gui.OCRModeSetup,
-            # ocr_gui.OCRStatus,
-            #
-            # audio_gui.AudioRuntime,
-            # audio_gui.AudioSettings,
-            # audio_gui.AudioStatus,
-            # audio_gui.AudioModeSetup,
-            # audio_gui.SampleSetup,
-            #
-            # finger_gui.FingerSettings
-            
+            imgTest,
         )
 
         for F in frame_classes:
@@ -68,8 +47,7 @@ class SmartnodeGUI(tk.Tk):
             self.frames[page_name] = frame
 
             # put all of the pages in the same location;
-            # the one on the top of the stacking order
-            # will be the one that is visible.
+            # the one on the top of the stacking order will be the one that is visible.
             frame.grid(row=0, column=0, sticky="nsew")
 
         #  for returning to previous frame from frames that are accessed from multiple other frames
@@ -78,7 +56,7 @@ class SmartnodeGUI(tk.Tk):
 
     #   shows
     def show_frame(self, page_name):
-        '''Show a frame for the given page name'''
+        # Show a frame for the given page name
         frame = self.frames[page_name]
         frame.tkraise()
 
@@ -90,87 +68,98 @@ class SmartnodeGUI(tk.Tk):
 
 
 class MainMenu(tk.Frame):
-
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
         label = tk.Label(self, text="MainMenu", font=controller.title_font)
         label.pack(side="top", fill="both", pady=1)
 
-        
+        #   set of commands to be assigned to each button
+        main_btn_cmds = {
+            'take_img': lambda: (
+                print("attempting to take picture from button"),
+                mainMenuFns['takeSrc'],
+                #controller.set_return_frame("MainMenu"),
+            ),
 
-        ocr_btn_func = lambda: (test.pre_ocr(),
-                                controller.set_return_frame("MainMenu"),
-                                '''controller.show_frame("OCRRuntime")''')
-        audio_btn_func = lambda: (test.pre_audio(),
-                                  controller.set_return_frame("MainMenu"),
-                                  '''controller.show_frame("AudioRuntime")''')
-        settings_btn_func = lambda: (test.pre_settings(),
-                                     controller.set_return_frame("MainMenu"),
-                                     '''controller.show_frame("Settings")''')
-        quit_btn_func = lambda: (test.pre_quit(),
-                                 controller.destroy())
+            'img_test': lambda: (
+                print("switching to imgTest Frame"),
+                controller.set_return_frame("MainMenu"),
+                controller.show_frame("imgTest")
+            ),
 
-        start_stop_ocr_btn          = tk.Button(self, text="OCR",    command=ocr_btn_func)
-        start_stop_audio_btn        = tk.Button(self, text="Audio",  command=audio_btn_func)
-        settings_btn                = tk.Button(self, text="Settings", command=settings_btn_func)
-        quit_btn                    = tk.Button(self, text="Quit",      command=quit_btn_func)
+            'btn_3': lambda: (
+                print("This button does nothing!"),
+                #controller.set_return_frame("MainMenu"),
+                '''controller.show_frame("crop_img")'''
+            ),
 
-        start_stop_ocr_btn.pack(side="top", fill="both")
-        start_stop_audio_btn.pack(side="top", fill="both")
-        settings_btn.pack(side="top", fill="both")
-        quit_btn.pack(side="top", fill="both")
+            'quit': lambda: (
+                controller.destroy()
+            ),
+        }
 
-'''
-        self.count = 0
-        self.will_update = True
-        self.updater()
+        #   actual button objecs
+        main_btns = {
+            'take_img': tk.Button(self, text="TAKE PICTURE"),
+            'img_test': tk.Button(self, text="IMG TESTING"),
+            'btn_3': tk.Button(self, text="<NULL>"),
+            'quit': tk.Button(self, text="QUIT"),
+        }
 
-    def update_button1(self):
-        if self.will_update:
-            self.start_stop_ocr_btn["text"] = str(self.count)
-            self.count += 1
-
-    def updater(self):
-        self.update_button1()
-        self.after(UPDATE_RATE, self.updater)
-
-'''
+        #   iterate through buttons and configure them accordingly
+        for btn in main_btns:
+            main_btns[btn].configure(bg="#FF0000", relief="raised", font=self.controller.buttonFont)
+            main_btns[btn].configure(padx=0, pady=0)
+            main_btns[btn].configure(height=BUTTON_HEIGHT, width=BUTTON_WIDTH)
+            main_btns[btn].configure(command=main_btn_cmds[btn])
+            main_btns[btn].pack(side="top", fill="both")
 
 
-#   This is the class declaration for the Main Settings Function
-class Settings(tk.Frame):
-
+#   testing menu for demo of image functions
+class imgTest(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        label = tk.Label(self, text="Settings", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
+        label = tk.Label(self, text="ImageTest", font=controller.title_font)
+        label.pack(side="top", fill="both", pady=1)
 
-#
-        ocr_settings_func = lambda: (test.pre_(),
-                                     controller.show_frame("OCRSettings"))
-        audio_settings_func = lambda: (test.pre_(),
-                                       controller.show_frame("AudioSettings"))
-        finger_settings_func = lambda: (test.pre_(),
-                                        controller.show_frame("FingerSettings"))
-        back_btn_func = lambda: (test.pre_(),
-                                 controller.show_frame("MainMenu"))
+        #   set of commands to be assigned to each button
+        imgTest_cmds = {
+            'show_img': lambda: (
+                print("attempting to show image"),
+                imgTestFns['showImg'],
+                #controller.set_return_frame("imgTest"),
+            ),
 
-#
-        ocr_settings_btn = tk.Button(self, height=90, width=200, text="OCR Settings",
-                                     command=ocr_settings_func)
-        audio_settings_btn = tk.Button(self, height=90, width=200,  text="Audio Settings",
-                                       command=audio_settings_func)
-        finger_settings_btn = tk.Button(self, height=90, width=200,  text="Finger Settings",
-                                        command=finger_settings_func)
-        back_button = tk.Button(self, height=90, width=200,  text="Go back",
-                                command=back_btn_func)
+            'add_crop': lambda: (
+                print("attempting to add crop"),
+                imgTestFns['addCrop'],
+                #controller.set_return_frame("imgTest"),
+            ),
 
-        ocr_settings_btn.pack()
-        audio_settings_btn.pack()
-        finger_settings_btn.pack()
-        back_button.pack()
+            'crop_img': lambda: (
+                imgTestFns['cropImg'],
+                #controller.set_return_frame("imgTest"),
+                '''controller.show_frame("crop_img")'''
+            ),
 
+            'back': lambda: (
+                controller.show_frame("MainMenu")
+            ),
+        }
 
-#if __name__ == "__main__":
+        #   actual button objecs
+        imgTest_btns = {
+            'show_img': tk.Button(self, text="SHOW IMG"),
+            'add_crop': tk.Button(self, text="ADD CROP"),
+            'crop_img': tk.Button(self, text="CROP IMG"),
+            'back': tk.Button(self, text="BACK"),
+        }
+
+        #   iterate through buttons and configure them accordingly
+        for btn in imgTest_btns:
+            imgTest_btns[btn].configure(bg="#FF0000", relief="raised", font=self.controller.buttonFont)
+            imgTest_btns[btn].configure(height=BUTTON_HEIGHT, width=BUTTON_WIDTH)
+            imgTest_btns[btn].configure(command=imgTest_cmds[btn])
+            imgTest_btns[btn].pack(side="top", fill="both")

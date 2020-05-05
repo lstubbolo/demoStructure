@@ -5,8 +5,9 @@ import Audio_Controller
 from Settings_Functions import *
 from Audio_Functions import playReference, recordAudio
 from FireBase_Functions import setupFirebase
-from OCR_Functions import takeSource, showImage
 from guiTest import*
+from Button_Functions import mainMenuFns, imgTestFns
+
 
 def Settings():
     print(f"\nSETTINGS ->\tThis function has access to settings json files")
@@ -28,12 +29,6 @@ def Audio():
 
 #   exits the program -> erase main settings file
 def EXIT():
-
-    '''print(f"removing mainSettings File")
-    path = getFullPath('mainSettings.json')
-    os.remove(path)
-    print(f"\tmainSettings.json deleted")
-    '''
 
     print("Done Exit Process\nHave A Nice Day!")
     exit('\nExiting Program...')
@@ -92,10 +87,11 @@ if __name__ == "__main__":
 
     menus = ['Settings', 'OCR', 'Audio', 'EXIT', 'WIPE', 'Rec Ref', 'Play Ref', 'Take Pic', 'Display Pic', 'Test GUI']
 
-    options = {1: Settings, 2: OCR, 3: Audio, 4: EXIT, 5: WIPE, 6: recordAudio, 7: playReference, 8: takeSource,
-               9: showImage, 10: launchTestGUI}
+    options = {1: Settings, 2: OCR, 3: Audio, 4: EXIT, 5: WIPE, 6: recordAudio, 7: playReference,
+               8: mainMenuFns['takeSrc'] , 9: imgTestFns['showImg'], 10: launchTestGUI}
 
     userInput = -1
+
 
 
     while userInput != 4:

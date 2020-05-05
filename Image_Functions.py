@@ -1,23 +1,33 @@
 import os
 import cv2
+
+from CoordList import coordList
 from CoordObj import coordObj
 from DEFAULTS import SCREEN_DIMS
+import shutil
+from Utility_Functions import getFullPath
 
 
-#   CRASHES ON MAC DO NOT RUN
-#   returns the absolute path to the local path provided
-def getFullPath(fileName):
-    #   gets the directory of the file
-    directory = os.path.dirname(__file__)
+#   takes the source picture
+def takeSource(srcPath=getFullPath('source.jpg')):
+    print(f"Capturing Source Image, saving to \n\t'{srcPath}'")
 
-    #   set path to json file-> append file name to directory
-    filePath = os.path.join(directory, fileName)
+    try:
+        with picamera.PiCamera() as camera:
+            camera.capture(srcPath)
+            camera.stop_preview()
+            camera.close()
 
-    return filePath
+    except NameError:
+        print('**Cannot Use Camera On This System')
+        print('->\tDuplicating Default \'kittens.jpg\' as \'source.jpg\'')
+        shutil.copy(getFullPath('kittens.jpg'), srcPath)
+
+    print('\tSource Image Captured!\n')
 
 
 #   shows the source image with the bounding areas for cropping
-def showImage(cropObjs, imgPath=getFullPath('source.jpg')):
+def showImage(cropObjs=coordList(), imgPath=getFullPath('source.jpg')):
     if not os.path.exists(imgPath):
         print("No Source Image, Fool! Run takeSource!")
         return

@@ -47,16 +47,22 @@ sudo apt-get install -y portaudio19-dev
 pip3 install pyaudio
 
 
-#   Settings to change, important info
-
-#Hide menu bar!
-R. Click Panel > Panel Settings > Advanced > "Hide When not in use" > Pixels = 0
-
-#   Touchscreen dimensions are 800 x 480 just fyi
-
 #   stuff needed for firebase
 Pip3 firebase
 Pip3 python_jwt
 Pip3 install gcloud
 Pip3 install sseclient
 Pip3 install firebase_admin
+
+
+#   Settings to change, important info
+
+#   set .sh files to execute on click // set single click
+#   File Manager (yellow folders) >> Edit >> preferences >> General
+#   Check boxes: Single Click, Don't Ask
+#Hide menu bar!
+R. Click Panel > Panel Settings > Advanced > "Hide When not in use" > Pixels = 0
+
+#   Touchscreen dimensions are 800 x 480 just fyi
+
+
