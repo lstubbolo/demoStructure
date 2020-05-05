@@ -72,4 +72,13 @@ sudo raspi-config
 
 #  Touchscreen dimensions are 800 x 480 (just FYI)
 
+#   launcher script:
+-> in a file called [whatever].sh
+#!/bin/bash
+python3 [full/path/to/file.py]
 
+#   set any script as executable
+sudo chmod +x path_to_script.extension
+
+#   shutdown script
+**see louis's pic from 2nd to last week in Spring
