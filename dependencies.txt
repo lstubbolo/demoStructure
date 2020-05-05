@@ -5,6 +5,8 @@
 https://mega.nz/#!SDBlFIIJ!fhr6f7pE2TYlOhogX0c4snWbT96D0Cjhcm_6ytnfHcU
 #	username / password = pi / raspberry
 
+#   pw changed to ocr
+
 #Expand Filesystem
 sudo raspi-config --expand-rootfs
 
