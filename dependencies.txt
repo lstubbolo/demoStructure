@@ -4,8 +4,7 @@
 #Using Raspbian Buster image with touch drivers pre-configured:
 https://mega.nz/#!SDBlFIIJ!fhr6f7pE2TYlOhogX0c4snWbT96D0Cjhcm_6ytnfHcU
 #	username / password = pi / raspberry
-
-#   pw changed to ocr
+#   pw changed to ocr (later on)
 
 #Expand Filesystem
 sudo raspi-config --expand-rootfs
@@ -14,7 +13,7 @@ sudo raspi-config --expand-rootfs
 sudo reboot now
 
 #Connect to Wifi if you haven’t already
-->Click network icon at top of screen and select country (protip: use down arrow)
+-> Click network icon at top of screen and select country (protip: use down arrow)
 -> join your wifi network
 
 #Update and upgrade linux, clean -> upgrade step takes a long time
@@ -50,21 +49,27 @@ pip3 install pyaudio
 
 
 #   stuff needed for firebase
-Pip3 firebase
-Pip3 python_jwt
-Pip3 install gcloud
-Pip3 install sseclient
-Pip3 install firebase_admin
+pip3 firebase
+pip3 python_jwt
+pip3 install gcloud
+pip3 install sseclient
+pip3 install firebase_admin
 
 
-#   Settings to change, important info
+#   Settings to change and important info
 
-#   set .sh files to execute on click // set single click
-#   File Manager (yellow folders) >> Edit >> preferences >> General
-#   Check boxes: Single Click, Don't Ask
-#Hide menu bar!
-R. Click Panel > Panel Settings > Advanced > "Hide When not in use" > Pixels = 0
+#   set .sh files to execute on click // set single click execution
+-> File Manager (yellow folders) >> Edit >> preferences >> General
+-> Check boxes: Single Click, Don't Ask
 
-#   Touchscreen dimensions are 800 x 480 just fyi
+#   Hide Menu Bar:
+-> R. Click Panel > Panel Settings > Advanced > "Hide When not in use" > Pixels = 0
+
+#   Change Password (to ocr) ** removes annoying alert on boot
+-> terminal
+sudo raspi-config
+-> navigate to passwords, change it, reb0ot
+
+#  Touchscreen dimensions are 800 x 480 (just FYI)
 
 
